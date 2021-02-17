@@ -4,24 +4,16 @@
 
 package com.futureworkshops.mobileworkflow.plugin.web.view
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.webkit.URLUtil
 import android.webkit.WebView
-import com.futureworkshops.mobileworkflow.domain.session.Session
-import com.futureworkshops.mobileworkflow.data.filehandler.IMWFileHandler
+import android.webkit.WebViewClient
 import com.futureworkshops.mobileworkflow.data.webview.IWebViewFactory
 import com.futureworkshops.mobileworkflow.surveykit.StepIdentifier
 import com.futureworkshops.mobileworkflow.surveykit.backend.views.step.QuestionView
-import com.futureworkshops.mobileworkflow.surveykit.services.localization.LocalizationService
-import com.futureworkshops.mobileworkflow.domain.service.ServiceContainer
-import com.futureworkshops.mobileworkflow.plugin.web.R
 import com.futureworkshops.mobileworkflow.surveykit.result.QuestionResult
 import com.futureworkshops.mobileworkflow.surveykit.result.question_results.EmptyQuestionResult
 import com.futureworkshops.mobileworkflow.ui.custom_steps.pdf.WebPart
 import kotlinx.android.synthetic.main.web_step.*
+
 
 internal class WebPluginView(
     id: StepIdentifier,
@@ -46,6 +38,7 @@ internal class WebPluginView(
             webPart.style(surveyTheme)
             content.add(webPart)
             webView = webViewFactory.create(it)
+            webView.webViewClient = WebViewClient()
             webView.settings.javaScriptEnabled = true
             webViewContainer.addView(webView)
 
