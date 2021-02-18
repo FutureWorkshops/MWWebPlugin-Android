@@ -27,9 +27,18 @@ android {
     kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
 
     buildTypes {
-        getByName("release") {
+        getByName("debug") {
             isMinifyEnabled = false
+            isDebuggable = true
+        }
+
+        getByName("release") {
+            isMinifyEnabled = true
             isDebuggable = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 
@@ -92,5 +101,5 @@ dependencies {
     implementation("io.reactivex.rxjava3:rxandroid:3.0.0")
     implementation("io.reactivex.rxjava3:rxkotlin:3.0.0")
 
-    implementation("com.futureworkshops.mobileworkflow:mw-core:0.0.16")
+    implementation(project(":mw-core"))
 }

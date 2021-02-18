@@ -18,20 +18,5 @@ allprojects {
         google()
         jcenter()
         maven { url = uri("https://jitpack.io") }
-
-
-        maven {
-            name = "Mobile Workflow"
-            url = uri("https://raw.githubusercontent.com/FutureWorkshops/MobileWorkflowCore-Android-Distribution/main")
-            credentials(HttpHeaderCredentials::class) {
-                val properties = java.util.Properties()
-                properties.load(project.rootProject.file("local.properties").inputStream())
-                name = "Authorization"
-                value = "token ${properties.getProperty("project.githubPAT")}"
-            }
-            authentication {
-                create<HttpHeaderAuthentication>("header")
-            }
-        }
     }
 }

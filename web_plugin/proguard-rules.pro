@@ -19,3 +19,15 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-keep class * extends com.futureworkshops.mobileworkflow.model.step.Step { *; }
+-keep class * extends com.futureworkshops.mobileworkflow.model.step.PluginStep { *; }
+-keep class * extends com.futureworkshops.mobileworkflow.surveykit.result.QuestionResult { *; }
+-keep class * extends com.futureworkshops.mobileworkflow.model.result.QuestionResult { *; }
+-keep class * extends com.futureworkshops.mobileworkflow.model.result.AnswerResult { *; }
+
+# Prevent R8 from leaving Data object members always null
+-keepclassmembers,allowobfuscation class * {
+  @com.google.gson.annotations.SerializedName <fields>;
+}
+-keep class com.futureworkshops.mobileworkflow.plugin.web.step.* { *; }
+
