@@ -101,5 +101,10 @@ dependencies {
     implementation("io.reactivex.rxjava3:rxandroid:3.0.0")
     implementation("io.reactivex.rxjava3:rxkotlin:3.0.0")
 
-    implementation(project(":mw-core"))
+    val fromMaven = project.property("project.mavenCore")?.toString()?.toBoolean() ?: false
+    if (findProject(":mw-core") == null || fromMaven) {
+        implementation("com.futureworkshops.mobileworkflow:mw-core:0.0.17")
+    } else {
+        implementation(project(":mw-core"))
+    }
 }
