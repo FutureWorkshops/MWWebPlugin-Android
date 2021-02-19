@@ -24,9 +24,15 @@ allprojects {
             url = uri("https://raw.githubusercontent.com/FutureWorkshops/MobileWorkflowCore-Android-Distribution/main")
             credentials(HttpHeaderCredentials::class) {
                 val properties = java.util.Properties()
-                properties.load(project.rootProject.file("local.properties").inputStream())
+                var token = ""
+                token = if (project.rootProject.file("local.properties").exists()) {
+                    properties.load(project.rootProject.file("local.properties").inputStream())
+                    properties.getProperty("project.githubPAT")
+                } else {
+                    System.getenv("GITHUB_PAT") ?: ""
+                }
                 name = "Authorization"
-                value = "token ${properties.getProperty("project.githubPAT")}"
+                value = "token $token"
             }
             authentication {
                 create<HttpHeaderAuthentication>("header")
