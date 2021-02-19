@@ -31,3 +31,10 @@
 }
 -keep class com.futureworkshops.mobileworkflow.plugin.web.step.* { *; }
 
+-keep class * extends com.futureworkshops.mobileworkflow.domain.PluginFactory { *; }
+-keep class * extends com.futureworkshops.mobileworkflow.domain.DeserializeStep { *; }
+
+-keepclassmembers class **.R$* {
+       public static <fields>;
+}
+
