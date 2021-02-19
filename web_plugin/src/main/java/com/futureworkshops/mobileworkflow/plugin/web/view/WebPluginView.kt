@@ -6,7 +6,7 @@ package com.futureworkshops.mobileworkflow.plugin.web.view
 
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import com.futureworkshops.mobileworkflow.data.webview.IWebViewFactory
+import com.futureworkshops.mobileworkflow.data.webview.IViewFactory
 import com.futureworkshops.mobileworkflow.surveykit.StepIdentifier
 import com.futureworkshops.mobileworkflow.surveykit.backend.views.step.QuestionView
 import com.futureworkshops.mobileworkflow.surveykit.result.QuestionResult
@@ -20,9 +20,9 @@ internal class WebPluginView(
     isOptional: Boolean,
     title: String,
     nextButtonText: String,
-    private val webViewFactory: IWebViewFactory,
+    private val viewFactory: IViewFactory,
     private val url: String
-) : QuestionView(id, isOptional, title, null, nextButtonText) {
+) : QuestionView(id, isOptional, title, null, nextButtonText, viewFactory) {
 
     private lateinit var webView: WebView
     private lateinit var webPart: WebPart
@@ -37,7 +37,7 @@ internal class WebPluginView(
             webPart = WebPart(it)
             webPart.style(surveyTheme)
             content.add(webPart)
-            webView = webViewFactory.create(it)
+            webView = viewFactory.createWebView(it)
             webView.webViewClient = WebViewClient()
             webView.settings.javaScriptEnabled = true
             webViewContainer.addView(webView)

@@ -31,7 +31,7 @@ internal class UIWebPluginStep(
         title = mobileWorkflowServices.localizationService.getTranslation(title),
         nextButtonText = mobileWorkflowServices.localizationService.getTranslation(nextButtonText),
         url = url,
-        webViewFactory = mobileWorkflowServices.webViewFactory
+        viewFactory = mobileWorkflowServices.viewFactory
     )
 
 }
