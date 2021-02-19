@@ -19,7 +19,6 @@ allprojects {
         jcenter()
         maven { url = uri("https://jitpack.io") }
 
-
         maven {
             name = "Mobile Workflow"
             url = uri("https://raw.githubusercontent.com/FutureWorkshops/MobileWorkflowCore-Android-Distribution/main")
