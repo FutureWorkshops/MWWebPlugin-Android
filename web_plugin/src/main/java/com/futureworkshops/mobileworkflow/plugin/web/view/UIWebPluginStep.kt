@@ -24,7 +24,7 @@ internal class UIWebPluginStep(
         stepResult: StepResult?,
         mobileWorkflowServices: MobileWorkflowServices,
         workflowServiceResponse: WorkflowServiceResponse,
-        selectedWorkflowId: Int
+        selectedWorkflowId: String
     ): StepView = WebPluginView(
         id = id,
         isOptional = isOptional,
