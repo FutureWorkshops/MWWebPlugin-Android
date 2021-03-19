@@ -21,7 +21,7 @@
 #-renamesourcefileattribute SourceFile
 -keep class * extends com.futureworkshops.mobileworkflow.model.step.Step { *; }
 -keep class * extends com.futureworkshops.mobileworkflow.model.step.PluginStep { *; }
--keep class * extends com.futureworkshops.mobileworkflow.surveykit.result.QuestionResult { *; }
+-keep class * extends com.futureworkshops.mobileworkflow.result.QuestionResult { *; }
 -keep class * extends com.futureworkshops.mobileworkflow.model.result.QuestionResult { *; }
 -keep class * extends com.futureworkshops.mobileworkflow.model.result.AnswerResult { *; }
 
