@@ -7,10 +7,10 @@ package com.futureworkshops.mobileworkflow.plugin.web.view
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.futureworkshops.mobileworkflow.data.webview.IViewFactory
-import com.futureworkshops.mobileworkflow.surveykit.StepIdentifier
-import com.futureworkshops.mobileworkflow.surveykit.backend.views.step.QuestionView
-import com.futureworkshops.mobileworkflow.surveykit.result.QuestionResult
-import com.futureworkshops.mobileworkflow.surveykit.result.question_results.EmptyQuestionResult
+import com.futureworkshops.mobileworkflow.StepIdentifier
+import com.futureworkshops.mobileworkflow.backend.views.step.QuestionView
+import com.futureworkshops.mobileworkflow.result.QuestionResult
+import com.futureworkshops.mobileworkflow.result.question_results.EmptyQuestionResult
 import com.futureworkshops.mobileworkflow.ui.custom_steps.pdf.WebPart
 import kotlinx.android.synthetic.main.web_step.*
 
