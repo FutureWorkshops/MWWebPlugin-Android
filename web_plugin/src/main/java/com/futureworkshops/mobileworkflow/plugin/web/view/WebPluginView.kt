@@ -8,7 +8,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.futureworkshops.mobileworkflow.data.webview.IViewFactory
 import com.futureworkshops.mobileworkflow.StepIdentifier
-import com.futureworkshops.mobileworkflow.backend.views.step.QuestionView
+import com.futureworkshops.mobileworkflow.backend.views.step.FragmentStep
 import com.futureworkshops.mobileworkflow.result.QuestionResult
 import com.futureworkshops.mobileworkflow.result.question_results.EmptyQuestionResult
 import com.futureworkshops.mobileworkflow.ui.custom_steps.pdf.WebPart
@@ -22,7 +22,7 @@ internal class WebPluginView(
     nextButtonText: String,
     private val viewFactory: IViewFactory,
     private val url: String
-) : QuestionView(id, isOptional, title, null, nextButtonText, viewFactory) {
+) : FragmentStep(id, isOptional, title, null, nextButtonText, viewFactory) {
 
     private lateinit var webView: WebView
     private lateinit var webPart: WebPart

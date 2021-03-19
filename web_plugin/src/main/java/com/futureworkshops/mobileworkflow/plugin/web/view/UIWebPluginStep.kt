@@ -6,7 +6,7 @@ package com.futureworkshops.mobileworkflow.plugin.web.view
 
 import com.futureworkshops.mobileworkflow.model.WorkflowServiceResponse
 import com.futureworkshops.mobileworkflow.StepIdentifier
-import com.futureworkshops.mobileworkflow.backend.views.step.StepView
+import com.futureworkshops.mobileworkflow.backend.views.step.FragmentStep
 import com.futureworkshops.mobileworkflow.result.StepResult
 import com.futureworkshops.mobileworkflow.services.MobileWorkflowServices
 import com.futureworkshops.mobileworkflow.steps.Step
@@ -25,7 +25,7 @@ internal class UIWebPluginStep(
         mobileWorkflowServices: MobileWorkflowServices,
         workflowServiceResponse: WorkflowServiceResponse,
         selectedWorkflowId: String
-    ): StepView = WebPluginView(
+    ): FragmentStep = WebPluginView(
         id = id,
         isOptional = isOptional,
         title = mobileWorkflowServices.localizationService.getTranslation(title),
