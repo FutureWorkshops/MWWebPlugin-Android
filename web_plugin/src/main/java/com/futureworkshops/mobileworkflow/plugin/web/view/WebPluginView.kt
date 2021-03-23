@@ -9,8 +9,8 @@ import android.webkit.WebViewClient
 import com.futureworkshops.mobileworkflow.data.webview.IViewFactory
 import com.futureworkshops.mobileworkflow.StepIdentifier
 import com.futureworkshops.mobileworkflow.backend.views.step.FragmentStep
-import com.futureworkshops.mobileworkflow.result.QuestionResult
-import com.futureworkshops.mobileworkflow.result.question_results.EmptyQuestionResult
+import com.futureworkshops.mobileworkflow.result.FragmentStepResult
+import com.futureworkshops.mobileworkflow.result.step_results.EmptyStepResult
 import com.futureworkshops.mobileworkflow.ui.custom_steps.pdf.WebPart
 import kotlinx.android.synthetic.main.web_step.*
 
@@ -27,7 +27,7 @@ internal class WebPluginView(
     private lateinit var webView: WebView
     private lateinit var webPart: WebPart
 
-    override fun createResults(): QuestionResult = EmptyQuestionResult(id, startDate)
+    override fun createResults(): FragmentStepResult = EmptyStepResult(id, startDate)
 
     override fun isValidInput(): Boolean = true
 
