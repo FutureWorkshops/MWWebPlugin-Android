@@ -41,6 +41,21 @@ allprojects {
     }
 }
 
+tasks.register("bumpVersion") {
+    val versionRegex = Regex("project\\.buildversion=[0-9.]{1,}")
+    val newVersion = if (project.hasProperty("build.version")) {
+        project.property("build.version")?.toString()
+    } else {
+        null
+    }
+    val file = File(rootDir, "gradle.properties")
+    if (newVersion != null && file.exists()) {
+        val content = file.readText()
+        val newContent = versionRegex.replace(content, "project.buildversion=$newVersion")
+        file.writeText(newContent)
+    }
+}
+
 tasks.register("updateCoreVersion") {
     val versionRegex = Regex("project\\.coreVersion=[0-9.]{1,}")
     val newVersion = if (project.hasProperty("build.coreVersion")) {
