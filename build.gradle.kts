@@ -40,3 +40,18 @@ allprojects {
         }
     }
 }
+
+tasks.register("updateCoreVersion") {
+    val versionRegex = Regex("project\\.coreVersion=[0-9.]{1,}")
+    val newVersion = if (project.hasProperty("build.coreVersion")) {
+        project.property("build.coreVersion")?.toString()
+    } else {
+        null
+    }
+    val file = File(rootDir, "gradle.properties")
+    if (newVersion != null && file.exists()) {
+        val content = file.readText()
+        val newContent = versionRegex.replace(content, "project.coreVersion=$newVersion")
+        file.writeText(newContent)
+    }
+}
