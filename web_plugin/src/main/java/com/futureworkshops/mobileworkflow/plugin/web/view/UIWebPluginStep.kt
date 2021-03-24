@@ -4,9 +4,10 @@
 
 package com.futureworkshops.mobileworkflow.plugin.web.view
 
-import com.futureworkshops.mobileworkflow.model.WorkflowServiceResponse
 import com.futureworkshops.mobileworkflow.StepIdentifier
 import com.futureworkshops.mobileworkflow.backend.views.step.FragmentStep
+import com.futureworkshops.mobileworkflow.backend.views.step.FragmentStepConfiguration
+import com.futureworkshops.mobileworkflow.model.WorkflowServiceResponse
 import com.futureworkshops.mobileworkflow.result.StepResult
 import com.futureworkshops.mobileworkflow.services.MobileWorkflowServices
 import com.futureworkshops.mobileworkflow.steps.Step
@@ -26,12 +27,14 @@ internal class UIWebPluginStep(
         workflowServiceResponse: WorkflowServiceResponse,
         selectedWorkflowId: String
     ): FragmentStep = WebPluginView(
+        FragmentStepConfiguration(
         id = id,
         isOptional = isOptional,
         title = mobileWorkflowServices.localizationService.getTranslation(title),
+        text = null,
         nextButtonText = mobileWorkflowServices.localizationService.getTranslation(nextButtonText),
-        url = url,
-        viewFactory = mobileWorkflowServices.viewFactory
+        mobileWorkflowServices = mobileWorkflowServices),
+        url = url
     )
 
 }

@@ -6,9 +6,8 @@ package com.futureworkshops.mobileworkflow.plugin.web.view
 
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import com.futureworkshops.mobileworkflow.data.webview.IViewFactory
-import com.futureworkshops.mobileworkflow.StepIdentifier
 import com.futureworkshops.mobileworkflow.backend.views.step.FragmentStep
+import com.futureworkshops.mobileworkflow.backend.views.step.FragmentStepConfiguration
 import com.futureworkshops.mobileworkflow.result.FragmentStepResult
 import com.futureworkshops.mobileworkflow.result.step_results.EmptyStepResult
 import com.futureworkshops.mobileworkflow.ui.custom_steps.pdf.WebPart
@@ -16,13 +15,9 @@ import kotlinx.android.synthetic.main.web_step.*
 
 
 internal class WebPluginView(
-    id: StepIdentifier,
-    isOptional: Boolean,
-    title: String,
-    nextButtonText: String,
-    private val viewFactory: IViewFactory,
+    private val fragmentStepConfiguration: FragmentStepConfiguration,
     private val url: String
-) : FragmentStep(id, isOptional, title, null, nextButtonText, viewFactory) {
+) : FragmentStep(fragmentStepConfiguration) {
 
     private lateinit var webView: WebView
     private lateinit var webPart: WebPart
@@ -37,7 +32,7 @@ internal class WebPluginView(
             webPart = WebPart(it)
             webPart.style(surveyTheme)
             content.add(webPart)
-            webView = viewFactory.createWebView(it)
+            webView = fragmentStepConfiguration.mobileWorkflowServices.viewFactory.createWebView(it)
             webView.webViewClient = WebViewClient()
             webView.settings.javaScriptEnabled = true
             webViewContainer.addView(webView)
