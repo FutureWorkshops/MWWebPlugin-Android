@@ -9,9 +9,9 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
 import com.futureworkshops.mobileworkflow.plugin.web.R
-import com.futureworkshops.mobileworkflow.surveykit.SurveyTheme
-import com.futureworkshops.mobileworkflow.surveykit.backend.helpers.extensions.toColorStateList
-import com.futureworkshops.mobileworkflow.surveykit.backend.views.main_parts.StyleablePart
+import com.futureworkshops.mobileworkflow.SurveyTheme
+import com.futureworkshops.mobileworkflow.backend.helpers.extensions.toColorStateList
+import com.futureworkshops.mobileworkflow.backend.views.main_parts.StyleablePart
 import kotlinx.android.synthetic.main.web_step.view.*
 
 class WebPart @JvmOverloads constructor(

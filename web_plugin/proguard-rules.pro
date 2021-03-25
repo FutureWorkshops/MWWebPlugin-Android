@@ -21,8 +21,8 @@
 #-renamesourcefileattribute SourceFile
 -keep class * extends com.futureworkshops.mobileworkflow.model.step.Step { *; }
 -keep class * extends com.futureworkshops.mobileworkflow.model.step.PluginStep { *; }
--keep class * extends com.futureworkshops.mobileworkflow.surveykit.result.QuestionResult { *; }
--keep class * extends com.futureworkshops.mobileworkflow.model.result.QuestionResult { *; }
+-keep class * extends com.futureworkshops.mobileworkflow.result.FragmentStepResult { *; }
+-keep class * extends com.futureworkshops.mobileworkflow.model.result.FragmentStepResult { *; }
 -keep class * extends com.futureworkshops.mobileworkflow.model.result.AnswerResult { *; }
 
 # Prevent R8 from leaving Data object members always null
@@ -39,4 +39,6 @@
 }
 
 -keep class * extends android.os.Parcelable { *; }
+
+-keep class com.futureworkshops.mobileworkflow.backend.views.step.FragmentStepConfiguration { public *; }
 
