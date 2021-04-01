@@ -1,6 +1,10 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 
+if (project.rootProject.file("../gradle_files/common.gradle.kts").exists()) {
+    apply("../gradle_files/common.gradle.kts")
+}
+
 buildscript {
     val kotlin_version by extra("1.4.10")
     repositories {
@@ -38,35 +42,5 @@ allprojects {
                 create<HttpHeaderAuthentication>("header")
             }
         }
-    }
-}
-
-tasks.register("bumpVersion") {
-    val versionRegex = Regex("project\\.buildversion=[0-9.]{1,}")
-    val newVersion = if (project.hasProperty("build.version")) {
-        project.property("build.version")?.toString()
-    } else {
-        null
-    }
-    val file = File(rootDir, "gradle.properties")
-    if (newVersion != null && file.exists()) {
-        val content = file.readText()
-        val newContent = versionRegex.replace(content, "project.buildversion=$newVersion")
-        file.writeText(newContent)
-    }
-}
-
-tasks.register("updateCoreVersion") {
-    val versionRegex = Regex("project\\.coreVersion=[0-9.]{1,}")
-    val newVersion = if (project.hasProperty("build.coreVersion")) {
-        project.property("build.coreVersion")?.toString()
-    } else {
-        null
-    }
-    val file = File(rootDir, "gradle.properties")
-    if (newVersion != null && file.exists()) {
-        val content = file.readText()
-        val newContent = versionRegex.replace(content, "project.coreVersion=$newVersion")
-        file.writeText(newContent)
     }
 }
