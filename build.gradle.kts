@@ -1,6 +1,10 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 
+if (project.rootProject.file("../gradle_files/common.gradle.kts").exists()) {
+    apply("../gradle_files/common.gradle.kts")
+}
+
 buildscript {
     val kotlin_version by extra("1.4.10")
     repositories {

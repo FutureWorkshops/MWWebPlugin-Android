@@ -7,14 +7,14 @@ plugins {
 }
 
 android {
-    compileSdkVersion(29)
-    buildToolsVersion("29.0.3")
+    compileSdkVersion(30)
+    buildToolsVersion("30.0.3")
 
     defaultConfig {
         versionCode = Integer.parseInt(project.property("project.buildnumber")?.toString())
         versionName = project.property("project.buildversion")?.toString()
         minSdkVersion(24)
-        targetSdkVersion(29)
+        targetSdkVersion(30)
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -103,7 +103,8 @@ dependencies {
 
     val fromMaven = project.property("project.mavenCore")?.toString()?.toBoolean() ?: false
     if (findProject(":mw-core") == null || fromMaven) {
-        implementation("com.futureworkshops.mobileworkflow:mw-core:0.0.30")
+        val version = project.property("project.coreVersion")
+        implementation("com.futureworkshops.mobileworkflow:mw-core:$version")
     } else {
         implementation(project(":mw-core"))
     }
