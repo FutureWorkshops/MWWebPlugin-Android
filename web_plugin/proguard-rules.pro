@@ -19,9 +19,11 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-repackageclasses com.futureworkshops.mobileworkflow.plugin.web
+
 -keep class * extends com.futureworkshops.mobileworkflow.model.step.Step { *; }
 -keep class * extends com.futureworkshops.mobileworkflow.model.step.PluginStep { *; }
--keep class * extends com.futureworkshops.mobileworkflow.result.FragmentStepResult { *; }
+-keep class * extends com.futureworkshops.mobileworkflow.model.result.StepResult { *; }
 -keep class * extends com.futureworkshops.mobileworkflow.model.result.FragmentStepResult { *; }
 -keep class * extends com.futureworkshops.mobileworkflow.model.result.AnswerResult { *; }
 
