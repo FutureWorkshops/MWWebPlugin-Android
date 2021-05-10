@@ -1,3 +1,2 @@
-include ':app'
 include ':web_plugin'
 rootProject.name = "MWWebPlugin-Android"
