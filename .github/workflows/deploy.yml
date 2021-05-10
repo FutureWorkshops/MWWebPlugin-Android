@@ -62,5 +62,8 @@ jobs:
           DIST_PATH: ${{ secrets.FW_ANDROID_MW_DISTRIBUTION_NAME }}
         run: |
           cd "${DIST_PATH}"
+          git checkout main
+          git fetch --all --prune
+          git rebase origin/main
           git push origin
           cd ..
