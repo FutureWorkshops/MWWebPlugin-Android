@@ -4,14 +4,13 @@
 
 package com.futureworkshops.mobileworkflow.plugin.web.view
 
+import android.annotation.SuppressLint
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.futureworkshops.mobileworkflow.backend.views.step.FragmentStep
 import com.futureworkshops.mobileworkflow.backend.views.step.FragmentStepConfiguration
 import com.futureworkshops.mobileworkflow.model.result.EmptyAnswerResult
 import com.futureworkshops.mobileworkflow.model.result.FragmentStepResult
-import com.futureworkshops.mobileworkflow.ui.custom_steps.pdf.WebPart
-import kotlinx.android.synthetic.main.web_step.*
 
 
 internal class WebPluginView(
@@ -39,8 +38,9 @@ internal class WebPluginView(
             content.add(webPart)
             webView = fragmentStepConfiguration.mobileWorkflowServices.viewFactory.createWebView(it)
             webView.webViewClient = WebViewClient()
+            @SuppressLint("SetJavaScriptEnabled")
             webView.settings.javaScriptEnabled = true
-            webViewContainer.addView(webView)
+            webPart.view.webViewContainer.addView(webView)
 
             viewUrl()
         }
