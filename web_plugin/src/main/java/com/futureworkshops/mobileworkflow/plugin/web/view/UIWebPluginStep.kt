@@ -10,16 +10,17 @@ import com.futureworkshops.mobileworkflow.backend.views.step.FragmentStepConfigu
 import com.futureworkshops.mobileworkflow.model.WorkflowServiceResponse
 import com.futureworkshops.mobileworkflow.model.result.StepResult
 import com.futureworkshops.mobileworkflow.services.MobileWorkflowServices
+import com.futureworkshops.mobileworkflow.steps.DataTitle
 import com.futureworkshops.mobileworkflow.steps.Step
 
-internal class UIWebPluginStep(
-    private val title: String,
+internal data class UIWebPluginStep(
+    override val title: String,
     private val url: String,
     override var isOptional: Boolean = false,
     override val id: StepIdentifier = StepIdentifier(),
     override val uuid: String,
     private val nextButtonText: String = "Next"
-) : Step {
+) : Step, DataTitle {
 
     override fun createView(
         stepResult: StepResult?,
@@ -37,4 +38,5 @@ internal class UIWebPluginStep(
         url = url
     )
 
+    override fun copyWithNewTitle(title: String): Step = copy(title = title)
 }
