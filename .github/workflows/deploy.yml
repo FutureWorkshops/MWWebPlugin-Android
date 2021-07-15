@@ -63,7 +63,13 @@ jobs:
         run: |
           cd "${DIST_PATH}"
           git checkout main
-          git fetch --all --prune
-          git rebase origin/main
-          git push origin
+          while true
+          do
+            git fetch --all --prune
+            git rebase origin/main
+            git push origin
+            if [ $? -eq 0 ]; then
+              break;
+            fi
+          done
           cd ..
