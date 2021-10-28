@@ -49,4 +49,6 @@ internal class WebPluginView(
     private fun viewUrl() {
         webView.loadUrl(url)
     }
+
+    override fun back() = if (webView.canGoBack()) webView.goBack() else super.back()
 }
