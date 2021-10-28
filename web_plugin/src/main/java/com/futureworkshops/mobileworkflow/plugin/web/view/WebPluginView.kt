@@ -41,7 +41,8 @@ internal class WebPluginView(
             @SuppressLint("SetJavaScriptEnabled")
             webView.settings.javaScriptEnabled = true
             webPart.view.webViewContainer.addView(webView)
-
+            content.makeContainerMatchParent()
+            
             viewUrl()
         }
     }

@@ -8,6 +8,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.LinearLayout
 import com.futureworkshops.mobileworkflow.plugin.web.R
 import com.futureworkshops.mobileworkflow.SurveyTheme
 import com.futureworkshops.mobileworkflow.backend.helpers.extensions.toColorStateList
@@ -19,6 +20,13 @@ class WebPart @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleRes: Int = 0
 ) : FrameLayout(context, attrs, defStyleRes), StyleablePart {
+
+    init {
+        layoutParams = LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.MATCH_PARENT
+        )
+    }
 
     val view = WebStepBinding.bind(View.inflate(context, R.layout.web_step, this))
 
