@@ -5,6 +5,7 @@
 package com.futureworkshops.mobileworkflow.plugin.web.view
 
 import android.annotation.SuppressLint
+import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.futureworkshops.mobileworkflow.backend.views.step.FragmentStep
@@ -15,7 +16,7 @@ import com.futureworkshops.mobileworkflow.model.result.FragmentStepResult
 
 internal class WebPluginView(
     private val fragmentStepConfiguration: FragmentStepConfiguration,
-    private val url: String
+    private val url: String,
 ) : FragmentStep(fragmentStepConfiguration) {
 
     private lateinit var webView: WebView
@@ -41,15 +42,25 @@ internal class WebPluginView(
             @SuppressLint("SetJavaScriptEnabled")
             webView.settings.javaScriptEnabled = true
             webPart.view.webViewContainer.addView(webView)
-            content.makeContainerMatchParent()
-            
+            enableFullScreen()
+            setUpFooter()
             viewUrl()
         }
     }
 
-    private fun viewUrl() {
-        webView.loadUrl(url)
+    private fun enableFullScreen() {
+        content.makeContainerMatchParent()
+        content.hideFooterContainer()
     }
+
+    private fun setUpFooter() {
+        webPart.view.webViewNextButton.buttonContinue.apply {
+            visibility = if (showContinue) View.VISIBLE else View.GONE
+            setOnClickListener { footer.onContinue() }
+        }
+    }
+
+    private fun viewUrl() = webView.loadUrl(url)
 
     override fun back() = if (webView.canGoBack()) webView.goBack() else super.back()
 }
