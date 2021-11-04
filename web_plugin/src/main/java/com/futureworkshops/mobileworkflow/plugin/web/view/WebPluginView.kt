@@ -5,7 +5,6 @@
 package com.futureworkshops.mobileworkflow.plugin.web.view
 
 import android.annotation.SuppressLint
-import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.futureworkshops.mobileworkflow.backend.views.step.FragmentStep
@@ -53,12 +52,7 @@ internal class WebPluginView(
         content.hideFooterContainer()
     }
 
-    private fun setUpFooter() {
-        webPart.view.webViewNextButton.buttonContinue.apply {
-            visibility = if (showContinue) View.VISIBLE else View.GONE
-            setOnClickListener { footer.onContinue() }
-        }
-    }
+    private fun setUpFooter() = webPart.setUpButton(footer.showContinue) { footer.onContinue() }
 
     private fun viewUrl() = webView.loadUrl(url)
 
