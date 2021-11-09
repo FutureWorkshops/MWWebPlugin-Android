@@ -7,7 +7,10 @@ package com.futureworkshops.mobileworkflow.plugin.web.view
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.viewbinding.ViewBinding
 import com.futureworkshops.mobileworkflow.plugin.web.R
 import com.futureworkshops.mobileworkflow.SurveyTheme
 import com.futureworkshops.mobileworkflow.backend.helpers.extensions.getTextColor
@@ -22,25 +25,35 @@ class WebPart @JvmOverloads constructor(
     defStyleRes: Int = 0,
 ) : ConstraintLayout(context, attrs, defStyleRes), StyleablePart {
 
+    class WebPartBinding(
+        context: Context,
+        @LayoutRes layout: Int,
+        root: ViewGroup
+    ): ViewBinding {
+        private val innerView = WebStepBinding.bind(View.inflate(context, layout, root))
+        val progressBar = innerView.progressBar
+        val webViewContainer = innerView.webViewContainer
+        val webViewNextButton = NextButtonBinding.bind(getRoot().findViewById(R.id.webViewNextButton))
+        override fun getRoot(): View = innerView.root
+    }
+
     init {
         layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
     }
 
-    val view = WebStepBinding.bind(View.inflate(context, R.layout.web_step, this))
-
-    private val nextButtonBinding = NextButtonBinding.bind(view.root.findViewById(R.id.webViewNextButton))
+    val view = WebPartBinding(context, R.layout.web_step, this)
 
     override fun style(surveyTheme: SurveyTheme) {
         val colorStateList = surveyTheme.themeColor.toColorStateList()
         view.progressBar.indeterminateTintList = colorStateList
-        nextButtonBinding.buttonContinue.apply {
+        view.webViewNextButton.buttonContinue.apply {
             backgroundTintList = colorStateList
             setTextColor(surveyTheme.themeColor.getTextColor())
         }
     }
 
     fun setUpButton(showButton: Boolean, onClick: () -> Unit) {
-        nextButtonBinding.buttonContinue.apply {
+        view.webViewNextButton.buttonContinue.apply {
             visibility = if (showButton) View.VISIBLE else View.GONE
             setOnClickListener { onClick() }
         }
