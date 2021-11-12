@@ -38,5 +38,5 @@ internal data class UIWebPluginStep(
         url = url
     )
 
-    override fun copyWithNewTitle(title: String): Step = copy(title = title)
+    override fun copyWithNewTitle(title: String): Step = this
 }
