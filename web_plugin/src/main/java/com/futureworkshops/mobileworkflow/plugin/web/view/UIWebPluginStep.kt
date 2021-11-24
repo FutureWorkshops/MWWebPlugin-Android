@@ -4,7 +4,7 @@
 
 package com.futureworkshops.mobileworkflow.plugin.web.view
 
-import com.futureworkshops.mobileworkflow.StepIdentifier
+
 import com.futureworkshops.mobileworkflow.backend.views.step.FragmentStep
 import com.futureworkshops.mobileworkflow.backend.views.step.FragmentStepConfiguration
 import com.futureworkshops.mobileworkflow.model.WorkflowServiceResponse
@@ -16,7 +16,7 @@ internal data class UIWebPluginStep(
     val title: String,
     private val url: String,
     override var isOptional: Boolean = false,
-    override val id: StepIdentifier = StepIdentifier(),
+    override val id: String,
     override val uuid: String,
     private val nextButtonText: String = "Next"
 ) : Step {
