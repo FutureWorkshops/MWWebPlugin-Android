@@ -11,9 +11,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class WebPluginStep(
     override val type: String,
-
     override val title: String,
-
     val optional: Boolean,
     val url: String
 
