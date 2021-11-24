@@ -31,7 +31,7 @@ internal class WebPluginView(
             webPart = WebPart(it)
             webPart.style(surveyTheme)
             content.add(webPart)
-            webView = fragmentStepConfiguration.mobileWorkflowServices.viewFactory.createWebView(it)
+            webView = fragmentStepConfiguration.services.viewFactory.createWebView(it)
             webView.webViewClient = WebViewClient()
             @SuppressLint("SetJavaScriptEnabled")
             webView.settings.javaScriptEnabled = true
