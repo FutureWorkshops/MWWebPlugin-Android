@@ -28,7 +28,6 @@ internal data class UIWebPluginStep(
         selectedWorkflowId: String
     ): FragmentStep = WebPluginView(
         FragmentStepConfiguration(
-        id = id,
         isOptional = isOptional,
         title = mobileWorkflowServices.localizationService.getTranslation(title),
         text = null,
