@@ -20,7 +20,7 @@ internal class WebPlugin : DeserializeStep<WebPluginStep>(
             title = step.title,
             isOptional = step.optional,
             id = step.id,
-            uuid = step.uuid,
+
             url = step.url
         )
 }
