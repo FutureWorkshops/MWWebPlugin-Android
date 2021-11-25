@@ -15,7 +15,6 @@ import com.futureworkshops.mobileworkflow.steps.Step
 internal data class UIWebPluginStep(
     val title: String,
     private val url: String,
-    override var isOptional: Boolean = false,
     override val id: String,
     private val nextButtonText: String = "Next"
 ) : Step {
@@ -27,8 +26,7 @@ internal data class UIWebPluginStep(
         selectedWorkflowId: String
     ): FragmentStep = WebPluginView(
         FragmentStepConfiguration(
-        isOptional = isOptional,
-        title = services.localizationService.getTranslation(title),
+                title = services.localizationService.getTranslation(title),
         text = null,
         nextButtonText = services.localizationService.getTranslation(nextButtonText),
         services = services),
