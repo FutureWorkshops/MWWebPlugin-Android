@@ -22,8 +22,7 @@ internal data class UIWebPluginStep(
     override fun createView(
         stepResult: AnswerResult?,
         services: ServiceBox,
-        workflowServiceResponse: WorkflowServiceResponse,
-        selectedWorkflowId: String
+        workflowServiceResponse: WorkflowServiceResponse
     ): FragmentStep = WebPluginView(
         FragmentStepConfiguration(
                 title = services.localizationService.getTranslation(title),
