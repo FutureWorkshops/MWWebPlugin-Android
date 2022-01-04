@@ -7,7 +7,7 @@ package com.futureworkshops.mobileworkflow.plugin.web.view
 
 import com.futureworkshops.mobileworkflow.backend.views.step.FragmentStep
 import com.futureworkshops.mobileworkflow.backend.views.step.FragmentStepConfiguration
-import com.futureworkshops.mobileworkflow.model.WorkflowServiceResponse
+import com.futureworkshops.mobileworkflow.model.AppServiceResponse
 import com.futureworkshops.mobileworkflow.model.result.AnswerResult
 import com.futureworkshops.mobileworkflow.services.ServiceBox
 import com.futureworkshops.mobileworkflow.steps.Step
@@ -22,7 +22,7 @@ internal data class UIWebPluginStep(
     override fun createView(
         stepResult: AnswerResult?,
         services: ServiceBox,
-        workflowServiceResponse: WorkflowServiceResponse
+        appServiceResponse: AppServiceResponse
     ): FragmentStep = WebPluginView(
         FragmentStepConfiguration(
                 title = services.localizationService.getTranslation(title),
