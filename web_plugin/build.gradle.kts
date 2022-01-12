@@ -67,12 +67,12 @@ afterEvaluate {
                 artifactId = "web"
 
                 pom {
-                    name.set("Mobile Workflow")
-                    url.set("https://www.mobileworkflow.io")
+                    name.set("App Rail")
+                    url.set("http://app-rail.io")
                     licenses {
                         license {
-                            name.set("The Apache License, Version 2.0")
-                            url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
+                            distribution.set("repo")
+                            comments.set("© 2022 Future Workshops Limited, All rights reserved")
                         }
                     }
                     developers {
