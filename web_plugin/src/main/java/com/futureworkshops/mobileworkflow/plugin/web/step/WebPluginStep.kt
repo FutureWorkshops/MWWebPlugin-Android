@@ -13,12 +13,11 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class WebPluginStep(
-    override val id: String,
-    override val type: String,
-    override val title: String,
-    override val links: List<StepLink>,
+    @SerializedName("id") override val id: String,
+    @SerializedName("type") override val type: String,
+    @SerializedName("title") override val title: String,
+    @SerializedName("links") override val links: List<StepLink>,
     @SerializedName("navigationItems") override val navigationItems: List<NavigationItem>,
-    val optional: Boolean,
-    val url: String
-
+    @SerializedName("optional") val optional: Boolean,
+    @SerializedName("url") val url: String
 ) : PluginStep(), Parcelable
