@@ -68,7 +68,7 @@ afterEvaluate {
 
                 pom {
                     name.set("App Rail")
-                    url.set("http://app-rail.io")
+                    url.set("https://app-rail.io")
                     licenses {
                         license {
                             distribution.set("repo")
