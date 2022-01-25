@@ -64,7 +64,7 @@ afterEvaluate {
                 from(components.getByName("release"))
                 groupId = project.property("project.bundleId")?.toString()
                 version = project.property("project.buildversion")?.toString()
-                artifactId = "web"
+                artifactId = project.property("project.artifactId")?.toString()
 
                 pom {
                     name.set("App Rail")
