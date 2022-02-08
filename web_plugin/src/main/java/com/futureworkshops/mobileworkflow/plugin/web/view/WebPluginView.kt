@@ -9,8 +9,8 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.futureworkshops.mobileworkflow.backend.views.step.FragmentStep
 import com.futureworkshops.mobileworkflow.backend.views.step.FragmentStepConfiguration
+import com.futureworkshops.mobileworkflow.model.result.AnswerResult
 import com.futureworkshops.mobileworkflow.model.result.EmptyAnswerResult
-import com.futureworkshops.mobileworkflow.model.result.FragmentStepResult
 
 
 internal class WebPluginView(
@@ -21,12 +21,7 @@ internal class WebPluginView(
     private lateinit var webView: WebView
     private lateinit var webPart: WebPart
 
-    override fun createResults(): FragmentStepResult<EmptyAnswerResult> {
-        return FragmentStepResult(
-            identifier = id.id,
-            answer = EmptyAnswerResult()
-        )
-    }
+    override fun getStepOutput(): AnswerResult = EmptyAnswerResult()
 
     override fun isValidInput(): Boolean = true
 
@@ -36,7 +31,7 @@ internal class WebPluginView(
             webPart = WebPart(it)
             webPart.style(surveyTheme)
             content.add(webPart)
-            webView = fragmentStepConfiguration.mobileWorkflowServices.viewFactory.createWebView(it)
+            webView = fragmentStepConfiguration.services.viewFactory.createWebView(it)
             webView.webViewClient = WebViewClient()
             @SuppressLint("SetJavaScriptEnabled")
             webView.settings.javaScriptEnabled = true

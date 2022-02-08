@@ -18,18 +18,18 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
-    kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_11.toString()
 
     buildTypes {
-        getByName("debug") {
+        debug {
             isMinifyEnabled = false
         }
 
-        getByName("release") {
+        release {
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -50,6 +50,11 @@ android {
 
     testOptions.unitTests.isReturnDefaultValues = true
     testOptions.unitTests.isIncludeAndroidResources = true
+    packagingOptions {
+        dex {
+            useLegacyPackaging = false
+        }
+    }
 }
 
 afterEvaluate {
@@ -59,15 +64,15 @@ afterEvaluate {
                 from(components.getByName("release"))
                 groupId = project.property("project.bundleId")?.toString()
                 version = project.property("project.buildversion")?.toString()
-                artifactId = "web"
+                artifactId = project.property("project.artifactId")?.toString()
 
                 pom {
-                    name.set("Mobile Workflow")
-                    url.set("https://www.mobileworkflow.io")
+                    name.set("App Rail")
+                    url.set("https://app-rail.io")
                     licenses {
                         license {
-                            name.set("The Apache License, Version 2.0")
-                            url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
+                            distribution.set("repo")
+                            comments.set("© 2022 Future Workshops Limited, All rights reserved")
                         }
                     }
                     developers {
@@ -90,19 +95,19 @@ afterEvaluate {
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.3.2")
-    implementation("androidx.appcompat:appcompat:1.2.0")
-    implementation("com.google.android.material:material:1.3.0")
+    implementation("androidx.core:core-ktx:1.7.0")
+    implementation("androidx.appcompat:appcompat:1.4.1")
+    implementation("com.google.android.material:material:1.5.0")
 
-    implementation("io.reactivex.rxjava3:rxjava:3.0.4")
+    implementation("io.reactivex.rxjava3:rxjava:3.1.3")
     implementation("io.reactivex.rxjava3:rxandroid:3.0.0")
-    implementation("io.reactivex.rxjava3:rxkotlin:3.0.0")
+    implementation("io.reactivex.rxjava3:rxkotlin:3.0.1")
 
     val fromMaven = project.property("project.mavenCore")?.toString()?.toBoolean() ?: false
     if (findProject(":mw-core") == null || fromMaven) {
         val version = project.property("project.coreVersion")
-        api("com.futureworkshops.mobileworkflow:mw-core:$version")
+        implementation("com.futureworkshops.mobileworkflow:mw-core:$version")
     } else {
-        api(project(":mw-core"))
+        implementation(project(":mw-core"))
     }
 }

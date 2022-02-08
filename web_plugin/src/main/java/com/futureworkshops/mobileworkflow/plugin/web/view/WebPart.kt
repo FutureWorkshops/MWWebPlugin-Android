@@ -11,12 +11,12 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.viewbinding.ViewBinding
-import com.futureworkshops.mobileworkflow.plugin.web.R
 import com.futureworkshops.mobileworkflow.SurveyTheme
 import com.futureworkshops.mobileworkflow.backend.helpers.extensions.getTextColor
 import com.futureworkshops.mobileworkflow.backend.helpers.extensions.toColorStateList
 import com.futureworkshops.mobileworkflow.backend.views.main_parts.StyleablePart
 import com.futureworkshops.mobileworkflow.databinding.NextButtonBinding
+import com.futureworkshops.mobileworkflow.plugin.web.R
 import com.futureworkshops.mobileworkflow.plugin.web.databinding.WebStepBinding
 
 class WebPart @JvmOverloads constructor(
