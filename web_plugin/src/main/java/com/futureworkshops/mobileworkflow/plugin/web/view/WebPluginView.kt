@@ -29,7 +29,6 @@ internal class WebPluginView(
         super.setupViews()
         context?.let {
             webPart = WebPart(it)
-            webPart.style(surveyTheme)
             content.add(webPart)
             webView = fragmentStepConfiguration.services.viewFactory.createWebView(it)
             webView.webViewClient = WebViewClient()
