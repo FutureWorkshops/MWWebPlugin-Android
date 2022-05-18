@@ -23,12 +23,19 @@ internal data class UIWebPluginStep(
         stepResult: AnswerResult?,
         services: ServiceBox,
         appServiceResponse: AppServiceResponse
-    ): FragmentStep = WebPluginView(
+    ): FragmentStep {
+        val resolvedURL = services.urlTaskBuilder.urlHelper.resolveUrl(
+            appServiceResponse.server,
+            url,
+            appServiceResponse.session
+        )?:url
+
+        return WebPluginView(
         FragmentStepConfiguration(
                 title = services.localizationService.getTranslation(title),
         text = null,
         nextButtonText = services.localizationService.getTranslation(nextButtonText),
         services = services),
-        url = url
-    )
+        url = resolvedURL)
+    }
 }
