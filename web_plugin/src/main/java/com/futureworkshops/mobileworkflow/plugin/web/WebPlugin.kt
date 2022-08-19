@@ -18,7 +18,8 @@ internal class WebPlugin : DeserializeStep<WebPluginStep>(
     override fun createUIStep(step: WebPluginStep): Step =
         UIWebPluginStep(
             title = step.title,
-                id = step.id,
-            url = step.url
+            id = step.id,
+            url = step.url,
+            hideNavigation = step.hideNavigation ?: false
         )
 }
