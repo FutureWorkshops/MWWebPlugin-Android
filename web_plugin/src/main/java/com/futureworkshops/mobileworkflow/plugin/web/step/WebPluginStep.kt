@@ -19,5 +19,6 @@ data class WebPluginStep(
     @SerializedName("links") override val links: List<StepLink>,
     @SerializedName("navigationItems") override val navigationItems: List<NavigationItem>,
     @SerializedName("optional") val optional: Boolean,
-    @SerializedName("url") val url: String
+    @SerializedName("url") val url: String,
+    @SerializedName("hideNavigation") val hideNavigation: Boolean?
 ) : PluginStep(), Parcelable

@@ -16,6 +16,7 @@ import com.futureworkshops.mobileworkflow.model.result.EmptyAnswerResult
 internal class WebPluginView(
     private val fragmentStepConfiguration: FragmentStepConfiguration,
     private val url: String,
+    private val hideNavigation: Boolean
 ) : FragmentStep(fragmentStepConfiguration) {
 
     private lateinit var webView: WebView
