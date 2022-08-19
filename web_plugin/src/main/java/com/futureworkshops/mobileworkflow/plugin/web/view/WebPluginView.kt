@@ -5,12 +5,16 @@
 package com.futureworkshops.mobileworkflow.plugin.web.view
 
 import android.annotation.SuppressLint
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.futureworkshops.mobileworkflow.backend.views.step.FragmentStep
 import com.futureworkshops.mobileworkflow.backend.views.step.FragmentStepConfiguration
 import com.futureworkshops.mobileworkflow.model.result.AnswerResult
 import com.futureworkshops.mobileworkflow.model.result.EmptyAnswerResult
+import com.futureworkshops.mobileworkflow.plugin.web.R
 
 
 internal class WebPluginView(
@@ -47,9 +51,31 @@ internal class WebPluginView(
         content.hideFooterContainer()
     }
 
-    private fun setUpFooter() = webPart.setUpButton(footer.showContinue) { footer.onContinue() }
+    private fun setUpFooter() = webPart.setUpButton(!hideNavigation) { footer.onContinue() }
 
     private fun viewUrl() = webView.loadUrl(url)
 
     override fun back() = if (webView.canGoBack()) webView.goBack() else super.back()
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        if (hideNavigation) {
+            val menuItem = menu.add(
+                R.id.main_menu_group,
+                R.id.next_menu_item,
+                0,
+                fragmentStepConfiguration.nextButtonText
+            ) ?: return
+            menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (!hideNavigation || item.itemId != R.id.next_menu_item) {
+            return super.onOptionsItemSelected(item)
+        }
+
+        footer.onContinue()
+        return true
+    }
 }
