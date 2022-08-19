@@ -51,7 +51,7 @@ internal class WebPluginView(
         content.hideFooterContainer()
     }
 
-    private fun setUpFooter() = webPart.setUpButton(!hideNavigation) { footer.onContinue() }
+    private fun setUpFooter() = webPart.setUpButton(!hideNavigation && showContinue) { footer.onContinue() }
 
     private fun viewUrl() = webView.loadUrl(url)
 
@@ -59,7 +59,7 @@ internal class WebPluginView(
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        if (hideNavigation) {
+        if (hideNavigation && showContinue) {
             val menuItem = menu.add(
                 R.id.main_menu_group,
                 R.id.next_menu_item,
