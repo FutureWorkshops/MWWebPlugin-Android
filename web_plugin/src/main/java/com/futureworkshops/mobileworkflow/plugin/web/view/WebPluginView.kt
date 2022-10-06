@@ -12,15 +12,17 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.futureworkshops.mobileworkflow.backend.views.step.FragmentStep
 import com.futureworkshops.mobileworkflow.backend.views.step.FragmentStepConfiguration
+import com.futureworkshops.mobileworkflow.domain.service.log.Logger
 import com.futureworkshops.mobileworkflow.model.result.AnswerResult
 import com.futureworkshops.mobileworkflow.model.result.EmptyAnswerResult
 import com.futureworkshops.mobileworkflow.plugin.web.R
-
+import com.futureworkshops.mobileworkflow.plugin.web.view.webview.LoggerWebChromeClient
 
 internal class WebPluginView(
     private val fragmentStepConfiguration: FragmentStepConfiguration,
     private val url: String,
-    private val hideNavigation: Boolean
+    private val hideNavigation: Boolean,
+    private val logger: Logger = Logger.sharedInstance
 ) : FragmentStep(fragmentStepConfiguration) {
 
     private lateinit var webView: WebView
@@ -32,18 +34,21 @@ internal class WebPluginView(
 
     override fun setupViews() {
         super.setupViews()
-        context?.let {
-            webPart = WebPart(it)
-            content.add(webPart)
-            webView = fragmentStepConfiguration.services.viewFactory.createWebView(it)
-            webView.webViewClient = WebViewClient()
-            @SuppressLint("SetJavaScriptEnabled")
-            webView.settings.javaScriptEnabled = true
-            webPart.view.webViewContainer.addView(webView)
-            enableFullScreen()
-            setUpFooter()
-            viewUrl()
-        }
+        val safeContext = context ?: return
+
+        webPart = WebPart(safeContext)
+        content.add(webPart)
+
+        webView = fragmentStepConfiguration.services.viewFactory.createWebView(safeContext)
+        webView.webViewClient = WebViewClient()
+        webView.webChromeClient = LoggerWebChromeClient(safeContext, logger)
+        @SuppressLint("SetJavaScriptEnabled")
+        webView.settings.javaScriptEnabled = true
+        webPart.view.webViewContainer.addView(webView)
+
+        enableFullScreen()
+        setUpFooter()
+        viewUrl()
     }
 
     private fun enableFullScreen() {
