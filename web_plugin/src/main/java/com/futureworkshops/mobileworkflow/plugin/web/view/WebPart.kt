@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.widget.ContentLoadingProgressBar
 import androidx.viewbinding.ViewBinding
 import com.futureworkshops.mobileworkflow.databinding.NextButtonBinding
 import com.futureworkshops.mobileworkflow.plugin.web.R
@@ -27,8 +28,11 @@ class WebPart @JvmOverloads constructor(
         root: ViewGroup
     ): ViewBinding {
         private val innerView = WebStepBinding.bind(View.inflate(context, layout, root))
-        val webViewContainer = innerView.webViewContainer
+        val webViewContainer
+            get() = innerView.webViewContainer
         val webViewNextButton = NextButtonBinding.bind(getRoot().findViewById(R.id.webViewNextButton))
+        val progressBar
+            get() = innerView.progressBar
         override fun getRoot(): View = innerView.root
     }
 
@@ -37,6 +41,8 @@ class WebPart @JvmOverloads constructor(
     }
 
     val view = WebPartBinding(context, R.layout.web_step, this)
+    val progressBar: ContentLoadingProgressBar
+        get() = view.progressBar
 
     fun setUpButton(showButton: Boolean, onClick: () -> Unit) {
         view.webViewNextButton.buttonContinue.apply {
