@@ -8,6 +8,7 @@ import android.annotation.SuppressLint
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.futureworkshops.mobileworkflow.backend.views.step.FragmentStep
@@ -40,7 +41,12 @@ internal class WebPluginView(
         content.add(webPart)
 
         webView = fragmentStepConfiguration.services.viewFactory.createWebView(safeContext)
-        webView.webViewClient = WebViewClient()
+        webView.webViewClient = object: WebViewClient() {
+            override fun onPageFinished(view: WebView?, url: String?) {
+                hideLoading()
+                super.onPageFinished(view, url)
+            }
+        }
         webView.webChromeClient = LoggerWebChromeClient(safeContext, logger)
         @SuppressLint("SetJavaScriptEnabled")
         webView.settings.javaScriptEnabled = true
@@ -58,7 +64,10 @@ internal class WebPluginView(
 
     private fun setUpFooter() = webPart.setUpButton(!hideNavigation && showContinue) { footer.onContinue() }
 
-    private fun viewUrl() = webView.loadUrl(url)
+    private fun viewUrl() {
+        showLoading()
+        webView.loadUrl(url)
+    }
 
     override fun back() = if (webView.canGoBack()) webView.goBack() else super.back()
 
@@ -82,5 +91,17 @@ internal class WebPluginView(
 
         footer.onContinue()
         return true
+    }
+
+    private fun showLoading() {
+        if (webPart.progressBar.visibility != View.GONE) { return }
+        webPart.progressBar.visibility = View.VISIBLE
+        webView.visibility = View.INVISIBLE
+    }
+
+    private fun hideLoading() {
+        if (webPart.progressBar.visibility != View.VISIBLE) { return }
+        webView.visibility = View.VISIBLE
+        webPart.progressBar.visibility = View.GONE
     }
 }
