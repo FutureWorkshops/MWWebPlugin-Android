@@ -101,19 +101,14 @@ tasks.register("copyOutputs", Copy::class) {
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.7.0")
-    implementation("androidx.appcompat:appcompat:1.4.1")
-    implementation("com.google.android.material:material:1.5.0")
+    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.appcompat:appcompat:1.5.1")
+    implementation("com.google.android.material:material:1.7.0")
 
     implementation("io.reactivex.rxjava3:rxjava:3.1.3")
     implementation("io.reactivex.rxjava3:rxandroid:3.0.0")
     implementation("io.reactivex.rxjava3:rxkotlin:3.0.1")
 
-    val fromMaven = project.property("project.mavenCore")?.toString()?.toBoolean() ?: false
-    if (findProject(":mw-core") == null || fromMaven) {
-        val version = project.property("project.coreVersion")
-        implementation("com.futureworkshops.mobileworkflow:mw-core:$version")
-    } else {
-        implementation(project(":mw-core"))
-    }
+    val version = project.property("project.coreVersion")
+    implementation("com.futureworkshops.mobileworkflow:mw-core:$version")
 }
