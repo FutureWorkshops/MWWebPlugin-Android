@@ -21,5 +21,5 @@ data class WebPluginStep(
     @SerializedName("optional") val optional: Boolean,
     @SerializedName("url") val url: String,
     @SerializedName("hideNavigation") val hideNavigation: Boolean?,
-    @SerializedName("hideNavigationTopBar") val hideToolbar: Boolean?
+    @SerializedName("hideTopNavigationBar") val hideToolbar: Boolean?
 ) : PluginStep(), Parcelable
