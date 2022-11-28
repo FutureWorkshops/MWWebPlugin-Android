@@ -33,6 +33,8 @@ internal class WebPluginView(
     override var showHeader: Boolean
         get() = !hideToolbar && super.showHeader
         set(value) { super.showHeader = value }
+    private val shouldShowNextButton: Boolean
+        get() = if (hideNavigation) { false } else { showContinue }
 
     override fun getStepOutput(): AnswerResult = EmptyAnswerResult()
     override fun isValidInput(): Boolean = true
@@ -66,7 +68,7 @@ internal class WebPluginView(
         content.hideFooterContainer()
     }
 
-    private fun setUpFooter() = webPart.setUpButton(!hideNavigation && showContinue) {
+    private fun setUpFooter() = webPart.setUpButton(shouldShowNextButton) {
         footer.onContinue()
     }
 
