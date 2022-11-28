@@ -20,5 +20,6 @@ data class WebPluginStep(
     @SerializedName("navigationItems") override val navigationItems: List<NavigationItem>,
     @SerializedName("optional") val optional: Boolean,
     @SerializedName("url") val url: String,
-    @SerializedName("hideNavigation") val hideNavigation: Boolean?
+    @SerializedName("hideNavigation") val hideNavigation: Boolean?,
+    @SerializedName("hideTopNavigationBar") val hideToolbar: Boolean?
 ) : PluginStep(), Parcelable

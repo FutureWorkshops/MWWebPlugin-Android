@@ -20,6 +20,7 @@ internal class WebPlugin : DeserializeStep<WebPluginStep>(
             title = step.title,
             id = step.id,
             url = step.url,
-            hideNavigation = step.hideNavigation ?: false
+            hideNavigation = step.hideNavigation ?: false,
+            hideToolbar = step.hideToolbar ?: false
         )
 }

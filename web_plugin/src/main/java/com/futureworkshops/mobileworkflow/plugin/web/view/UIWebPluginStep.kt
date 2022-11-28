@@ -17,6 +17,7 @@ internal data class UIWebPluginStep(
     private val url: String,
     override val id: String,
     private val hideNavigation: Boolean,
+    private val hideToolbar: Boolean,
     private val nextButtonText: String = "Next"
 ) : Step {
 
@@ -33,13 +34,14 @@ internal data class UIWebPluginStep(
 
         return WebPluginView(
             FragmentStepConfiguration(
-                title = services.localizationService.getTranslation(title),
+                title = if(hideToolbar) null else services.localizationService.getTranslation(title),
                 text = null,
                 nextButtonText = services.localizationService.getTranslation(nextButtonText),
                 services = services
             ),
             url = resolvedURL,
-            hideNavigation = hideNavigation
+            hideNavigation = hideNavigation,
+            hideToolbar = hideToolbar
         )
     }
 }

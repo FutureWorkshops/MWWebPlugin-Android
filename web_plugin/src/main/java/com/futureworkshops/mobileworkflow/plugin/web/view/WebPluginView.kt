@@ -23,14 +23,20 @@ internal class WebPluginView(
     private val fragmentStepConfiguration: FragmentStepConfiguration,
     private val url: String,
     private val hideNavigation: Boolean,
+    private val hideToolbar: Boolean,
     private val logger: Logger = Logger.sharedInstance
 ) : FragmentStep(fragmentStepConfiguration) {
 
     private lateinit var webView: WebView
     private lateinit var webPart: WebPart
 
-    override fun getStepOutput(): AnswerResult = EmptyAnswerResult()
+    override var showHeader: Boolean
+        get() = !hideToolbar && super.showHeader
+        set(value) { super.showHeader = value }
+    private val shouldShowNextButton: Boolean
+        get() = if (hideNavigation) { false } else { showContinue }
 
+    override fun getStepOutput(): AnswerResult = EmptyAnswerResult()
     override fun isValidInput(): Boolean = true
 
     override fun setupViews() {
@@ -62,7 +68,9 @@ internal class WebPluginView(
         content.hideFooterContainer()
     }
 
-    private fun setUpFooter() = webPart.setUpButton(!hideNavigation && showContinue) { footer.onContinue() }
+    private fun setUpFooter() = webPart.setUpButton(shouldShowNextButton) {
+        footer.onContinue()
+    }
 
     private fun viewUrl() {
         showLoading()
