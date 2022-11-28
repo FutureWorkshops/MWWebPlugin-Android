@@ -17,6 +17,7 @@ internal data class UIWebPluginStep(
     private val url: String,
     override val id: String,
     private val hideNavigation: Boolean,
+    private val hideToolbar: Boolean,
     private val nextButtonText: String = "Next"
 ) : Step {
 
