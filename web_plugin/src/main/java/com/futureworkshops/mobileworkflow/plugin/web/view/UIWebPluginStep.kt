@@ -40,7 +40,8 @@ internal data class UIWebPluginStep(
                 services = services
             ),
             url = resolvedURL,
-            hideNavigation = hideNavigation
+            hideNavigation = hideNavigation,
+            hideToolbar = hideToolbar
         )
     }
 }

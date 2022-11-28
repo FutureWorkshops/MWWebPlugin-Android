@@ -23,6 +23,7 @@ internal class WebPluginView(
     private val fragmentStepConfiguration: FragmentStepConfiguration,
     private val url: String,
     private val hideNavigation: Boolean,
+    private val hideToolbar: Boolean,
     private val logger: Logger = Logger.sharedInstance
 ) : FragmentStep(fragmentStepConfiguration) {
 
@@ -36,6 +37,8 @@ internal class WebPluginView(
     override fun setupViews() {
         super.setupViews()
         val safeContext = context ?: return
+
+        header.visibility = if (hideToolbar) View.GONE else View.VISIBLE
 
         webPart = WebPart(safeContext)
         content.add(webPart)
@@ -62,7 +65,9 @@ internal class WebPluginView(
         content.hideFooterContainer()
     }
 
-    private fun setUpFooter() = webPart.setUpButton(!hideNavigation && showContinue) { footer.onContinue() }
+    private fun setUpFooter() = webPart.setUpButton(!hideNavigation && showContinue) {
+        footer.onContinue()
+    }
 
     private fun viewUrl() {
         showLoading()
