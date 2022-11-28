@@ -30,15 +30,16 @@ internal class WebPluginView(
     private lateinit var webView: WebView
     private lateinit var webPart: WebPart
 
-    override fun getStepOutput(): AnswerResult = EmptyAnswerResult()
+    override var showHeader: Boolean
+        get() = !hideToolbar && super.showHeader
+        set(value) { super.showHeader = value }
 
+    override fun getStepOutput(): AnswerResult = EmptyAnswerResult()
     override fun isValidInput(): Boolean = true
 
     override fun setupViews() {
         super.setupViews()
         val safeContext = context ?: return
-
-        header.visibility = if (hideToolbar) View.GONE else View.VISIBLE
 
         webPart = WebPart(safeContext)
         content.add(webPart)
