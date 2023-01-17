@@ -67,6 +67,7 @@ internal class WebPluginView(
 
     override fun onViewCreated() {
         super.onViewCreated()
+        header.visibility = if (showHeader) View.VISIBLE else View.GONE
         toolbar.title = fragmentStepConfiguration.title
         (toolbar as? MaterialToolbar)?.isTitleCentered = true
     }
