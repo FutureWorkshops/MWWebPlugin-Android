@@ -18,6 +18,7 @@ import com.futureworkshops.mobileworkflow.model.result.AnswerResult
 import com.futureworkshops.mobileworkflow.model.result.EmptyAnswerResult
 import com.futureworkshops.mobileworkflow.plugin.web.R
 import com.futureworkshops.mobileworkflow.plugin.web.view.webview.LoggerWebChromeClient
+import com.google.android.material.appbar.MaterialToolbar
 
 internal class WebPluginView(
     private val fragmentStepConfiguration: FragmentStepConfiguration,
@@ -44,6 +45,7 @@ internal class WebPluginView(
         val safeContext = context ?: return
 
         webPart = WebPart(safeContext)
+        content.clear()
         content.add(webPart)
 
         webView = fragmentStepConfiguration.services.viewFactory.createWebView(safeContext)
@@ -61,6 +63,12 @@ internal class WebPluginView(
         enableFullScreen()
         setUpFooter()
         viewUrl()
+    }
+
+    override fun onViewCreated() {
+        super.onViewCreated()
+        toolbar.title = fragmentStepConfiguration.title
+        (toolbar as? MaterialToolbar)?.isTitleCentered = true
     }
 
     private fun enableFullScreen() {
