@@ -5,12 +5,14 @@
 package com.futureworkshops.mobileworkflow.plugin.web.view
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.activity.addCallback
 import com.futureworkshops.mobileworkflow.backend.views.step.FragmentStep
 import com.futureworkshops.mobileworkflow.backend.views.step.FragmentStepConfiguration
 import com.futureworkshops.mobileworkflow.domain.service.log.Logger
@@ -70,6 +72,10 @@ internal class WebPluginView(
         header.visibility = if (showHeader) View.VISIBLE else View.GONE
         toolbar.title = fragmentStepConfiguration.title
         (toolbar as? MaterialToolbar)?.isTitleCentered = true
+
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner) {
+            back()
+        }
     }
 
     private fun enableFullScreen() {
@@ -86,7 +92,9 @@ internal class WebPluginView(
         webView.loadUrl(url)
     }
 
-    override fun back() = if (webView.canGoBack()) webView.goBack() else super.back()
+    override fun back() {
+        if (webView.canGoBack()) webView.goBack() else super.back()
+    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -102,6 +110,12 @@ internal class WebPluginView(
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            //For the toolbar home, we are always going one step up.
+            super.back()
+            return true
+        }
+
         if (!hideNavigation || item.itemId != R.id.next_menu_item) {
             return super.onOptionsItemSelected(item)
         }
