@@ -5,7 +5,6 @@
 package com.futureworkshops.mobileworkflow.plugin.web.view
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -58,8 +57,11 @@ internal class WebPluginView(
             }
         }
         webView.webChromeClient = LoggerWebChromeClient(safeContext, logger)
-        @SuppressLint("SetJavaScriptEnabled")
-        webView.settings.javaScriptEnabled = true
+        webView.settings.apply {
+            @SuppressLint("SetJavaScriptEnabled")
+            javaScriptEnabled = true
+            domStorageEnabled = true
+        }
         webPart.view.webViewContainer.addView(webView)
 
         enableFullScreen()
