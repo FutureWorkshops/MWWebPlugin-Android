@@ -56,7 +56,7 @@ internal class WebPluginView(
                 super.onPageFinished(view, url)
             }
         }
-        webView.webChromeClient = LoggerWebChromeClient(safeContext, logger)
+        webView.webChromeClient = LoggerWebChromeClient(safeContext, logger, activity)
         webView.settings.apply {
             @SuppressLint("SetJavaScriptEnabled")
             javaScriptEnabled = true
