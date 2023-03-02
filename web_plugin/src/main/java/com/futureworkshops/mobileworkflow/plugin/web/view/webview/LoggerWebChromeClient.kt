@@ -55,7 +55,6 @@ open class LoggerWebChromeClient(
     override fun onShowCustomView(paramView: View, paramCustomViewCallback: CustomViewCallback) {
         if (customView != null) {
             onHideCustomView()
-            return
         }
         activity?.let {
             customView = paramView
