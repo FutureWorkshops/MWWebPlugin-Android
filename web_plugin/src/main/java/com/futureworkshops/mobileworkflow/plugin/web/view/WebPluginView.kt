@@ -43,6 +43,8 @@ internal class WebPluginView(
         set(value) { super.showHeader = value }
     private val shouldShowNextButton: Boolean
         get() = if (hideNavigation) { false } else { showContinue }
+    private val shouldShowShareButton: Boolean
+        get() = if (hideNavigation) { false } else { showShareOption }
 
     override fun getStepOutput(): AnswerResult = EmptyAnswerResult()
     override fun isValidInput(): Boolean = true
@@ -98,8 +100,13 @@ internal class WebPluginView(
         content.hideFooterContainer()
     }
 
-    private fun setUpFooter() = webPart.setUpButton(shouldShowNextButton) {
-        footer.onContinue()
+    private fun setUpFooter() {
+        webPart.setUpNextButton(shouldShowNextButton) {
+            footer.onContinue()
+        }
+        webPart.setUpShareButton(shouldShowShareButton) {
+            shareUrl()
+        }
     }
 
     private fun viewUrl() {
@@ -165,7 +172,7 @@ internal class WebPluginView(
         }
         shareMenu.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
 
-        shareMenu.isVisible = showShareOption
+        shareMenu.isVisible = showShareOption && hideNavigation
 
     }
 
