@@ -19,11 +19,20 @@ internal data class UIWebPluginStep(
     override val id: String,
     private val hideNavigation: Boolean,
     private val hideToolbar: Boolean,
-    private val nextButtonText: String = "Next"
+    private val nextButtonText: String = "Next",
+    private val showShareOption: Boolean
 ) : Step, DataTitle {
 
     override fun copyWithNewTitle(title: String): Step {
-        return UIWebPluginStep(title, url, id, hideNavigation, hideToolbar, nextButtonText)
+        return UIWebPluginStep(
+            title = title,
+            url = url,
+            id = id,
+            hideNavigation = hideNavigation,
+            hideToolbar = hideToolbar,
+            nextButtonText = nextButtonText,
+            showShareOption = showShareOption
+        )
     }
 
     override fun createView(
@@ -46,7 +55,8 @@ internal data class UIWebPluginStep(
             ),
             url = resolvedURL,
             hideNavigation = hideNavigation,
-            hideToolbar = hideToolbar
+            hideToolbar = hideToolbar,
+            showShareOption = showShareOption
         )
     }
 }
