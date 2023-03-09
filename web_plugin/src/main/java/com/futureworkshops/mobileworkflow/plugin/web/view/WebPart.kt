@@ -12,9 +12,7 @@ import androidx.annotation.LayoutRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.ContentLoadingProgressBar
 import androidx.viewbinding.ViewBinding
-import com.futureworkshops.mobileworkflow.databinding.NextButtonBinding
 import com.futureworkshops.mobileworkflow.plugin.web.R
-import com.futureworkshops.mobileworkflow.plugin.web.databinding.ShareButtonBinding
 import com.futureworkshops.mobileworkflow.plugin.web.databinding.WebStepBinding
 
 class WebPart @JvmOverloads constructor(
@@ -31,8 +29,10 @@ class WebPart @JvmOverloads constructor(
         private val innerView = WebStepBinding.bind(View.inflate(context, layout, root))
         val webViewContainer
             get() = innerView.webViewContainer
-        val webViewNextButton = NextButtonBinding.bind(getRoot().findViewById(R.id.webViewNextButton))
-        val webViewShareButton = ShareButtonBinding.bind(getRoot().findViewById(R.id.webViewShareButton))
+        val bottomBarContainer
+            get() = innerView.bottomBarContainer
+        val bottomAppBar
+            get() = innerView.bottomAppBar
         val progressBar
             get() = innerView.progressBar
         override fun getRoot(): View = innerView.root
@@ -45,18 +45,4 @@ class WebPart @JvmOverloads constructor(
     val view = WebPartBinding(context, R.layout.web_step, this)
     val progressBar: ContentLoadingProgressBar
         get() = view.progressBar
-
-    fun setUpNextButton(showButton: Boolean, onClick: () -> Unit) {
-        view.webViewNextButton.buttonContinue.apply {
-            visibility = if (showButton) View.VISIBLE else View.GONE
-            setOnClickListener { onClick() }
-        }
-    }
-
-    fun setUpShareButton(showButton: Boolean, onClick: () -> Unit) {
-        view.webViewShareButton.buttonShare.apply {
-            visibility = if (showButton) View.VISIBLE else View.GONE
-            setOnClickListener { onClick() }
-        }
-    }
 }
