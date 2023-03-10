@@ -41,9 +41,9 @@ internal class WebPluginView(
     override var showHeader: Boolean
         get() = !hideToolbar && super.showHeader
         set(value) { super.showHeader = value }
-    private val shouldShowNextButton: Boolean
+    private val shouldShowNextBottomBar: Boolean
         get() = if (hideNavigation) { false } else { showContinue }
-    private val shouldShowShareButton: Boolean
+    private val shouldShowShareBottomBar: Boolean
         get() = if (hideNavigation) { false } else { showShareOption }
 
     override fun getStepOutput(): AnswerResult = EmptyAnswerResult()
@@ -101,13 +101,51 @@ internal class WebPluginView(
     }
 
     private fun setUpFooter() {
-        webPart.setUpNextButton(shouldShowNextButton) {
-            footer.onContinue()
+        webPart.view.bottomBarContainer.visibility = if (shouldShowNextBottomBar || shouldShowShareBottomBar) {
+            View.VISIBLE
+        } else {
+            View.GONE
         }
-        webPart.setUpShareButton(shouldShowShareButton) {
-            shareUrl()
+        setUpShareButton(shouldShowShareBottomBar)
+        setUpNextButton(shouldShowNextBottomBar)
+
+        webPart.view.bottomAppBar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.next_menu_item -> {
+                    footer.onContinue()
+                    true
+                }
+                R.id.share_menu_item -> {
+                    shareUrl()
+                    true
+                }
+                else -> false
+            }
         }
     }
+
+    private fun setUpNextButton(showButton: Boolean) {
+        if (showButton) {
+            val bottomBarMenu = webPart.view.bottomAppBar.menu
+            val menuItem = bottomBarMenu.add(
+                R.id.main_menu_group,
+                R.id.next_menu_item,
+                0,
+                fragmentStepConfiguration.nextButtonText
+            )
+            menuItem?.apply {
+                setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+            }
+        }
+    }
+
+    private fun setUpShareButton(showButton: Boolean) {
+        if (showButton) {
+            val bottomBarMenu = webPart.view.bottomAppBar.menu
+            configureShareMenu(bottomBarMenu, true)
+        }
+    }
+
 
     private fun viewUrl() {
         showLoading()
@@ -130,7 +168,7 @@ internal class WebPluginView(
             menuItem?.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
         }
 
-        configureShareMenu(menu)
+        configureShareMenu(menu, showShareOption && hideNavigation)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -164,15 +202,14 @@ internal class WebPluginView(
         return true
     }
 
-    private fun configureShareMenu(menu: Menu) {
-
+    private fun configureShareMenu(menu: Menu, isVisble: Boolean) {
         val shareMenu = menu.add(Menu.NONE, R.id.share_menu_item, 0, R.string.menu_item_share)
         shareMenu.icon = ContextCompat.getDrawable(requireContext(), com.futureworkshops.mobileworkflow.R.drawable.ic_share)?.apply {
             DrawableCompat.setTintList(this, requireContext().colorOnPrimarySurface.toColorStateList())
         }
         shareMenu.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
 
-        shareMenu.isVisible = showShareOption && hideNavigation
+        shareMenu.isVisible = isVisble
 
     }
 

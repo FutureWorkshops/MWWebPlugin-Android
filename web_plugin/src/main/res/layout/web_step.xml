@@ -11,31 +11,32 @@
         android:id="@+id/webViewContainer"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/webViewNextButton"
+        app:layout_constraintBottom_toTopOf="@id/bottomBarContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
 
-    <include
-        android:id="@+id/webViewNextButton"
-        layout="@layout/next_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/webViewShareButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/webViewContainer" />
-
-    <include
-        android:id="@+id/webViewShareButton"
-        layout="@layout/share_button"
-        android:layout_width="wrap_content"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/bottomBarContainer"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/webViewContainer" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/webViewContainer">
+
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottomAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
+            />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
 
     <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/progressBar"
