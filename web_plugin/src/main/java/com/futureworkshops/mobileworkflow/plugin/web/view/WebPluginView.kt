@@ -191,17 +191,6 @@ internal class WebPluginView(
         }
     }
 
-    private fun configureShareMenu(menu: Menu, isVisble: Boolean) {
-        val shareMenu = menu.add(Menu.NONE, R.id.share_menu_item, 0, R.string.menu_item_share)
-        shareMenu.icon = ContextCompat.getDrawable(requireContext(), com.futureworkshops.mobileworkflow.R.drawable.ic_share)?.apply {
-            DrawableCompat.setTintList(this, requireContext().colorOnPrimarySurface.toColorStateList())
-        }
-        shareMenu.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
-
-        shareMenu.isVisible = isVisble
-
-    }
-
     private fun shareUrl(): Boolean {
         if (!isShareShown) {
             context?.startActivity(
@@ -211,6 +200,17 @@ internal class WebPluginView(
         }
 
         return true
+    }
+
+    private fun configureShareMenu(menu: Menu, isVisble: Boolean) {
+        val shareMenu = menu.add(Menu.NONE, R.id.share_menu_item, 0, R.string.menu_item_share)
+        shareMenu.icon = ContextCompat.getDrawable(requireContext(), com.futureworkshops.mobileworkflow.R.drawable.ic_share)?.apply {
+            DrawableCompat.setTintList(this, requireContext().colorOnPrimarySurface.toColorStateList())
+        }
+        shareMenu.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+
+        shareMenu.isVisible = isVisble
+
     }
 
     private fun showLoading() {
