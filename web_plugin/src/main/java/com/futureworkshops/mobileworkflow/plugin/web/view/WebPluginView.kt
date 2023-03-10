@@ -106,8 +106,8 @@ internal class WebPluginView(
         } else {
             View.GONE
         }
-        setUpNextButton(shouldShowNextBottomBar)
         setUpShareButton(shouldShowShareBottomBar)
+        setUpNextButton(shouldShowNextBottomBar)
 
         webPart.view.bottomAppBar.setOnMenuItemClickListener {
             when (it.itemId) {
