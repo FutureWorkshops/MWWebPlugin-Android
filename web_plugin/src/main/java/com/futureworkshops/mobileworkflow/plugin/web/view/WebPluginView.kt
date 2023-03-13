@@ -158,6 +158,9 @@ internal class WebPluginView(
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
+
+        configureShareMenu(menu, showShareOption && hideNavigation)
+
         if (hideNavigation && showContinue) {
             val menuItem = menu.add(
                 R.id.main_menu_group,
@@ -167,8 +170,6 @@ internal class WebPluginView(
             )
             menuItem?.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
         }
-
-        configureShareMenu(menu, showShareOption && hideNavigation)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
