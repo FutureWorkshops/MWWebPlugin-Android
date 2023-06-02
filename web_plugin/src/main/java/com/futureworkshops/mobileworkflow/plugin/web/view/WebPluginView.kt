@@ -77,6 +77,7 @@ internal class WebPluginView(
             javaScriptEnabled = true
             domStorageEnabled = true
         }
+        webView.visibility = View.INVISIBLE
         webPart.view.webViewContainer.addView(webView)
 
         enableFullScreen()
@@ -300,7 +301,6 @@ internal class WebPluginView(
     private fun showLoading() = CoroutineScope(Dispatchers.Main).launch {
         if (webPart.progressBar.visibility == View.GONE) {
             webPart.progressBar.visibility = View.VISIBLE
-            webView.visibility = View.INVISIBLE
         }
     }
 
