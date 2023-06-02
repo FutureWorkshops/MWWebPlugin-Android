@@ -9,6 +9,7 @@ import com.futureworkshops.mobileworkflow.backend.views.step.FragmentStep
 import com.futureworkshops.mobileworkflow.backend.views.step.FragmentStepConfiguration
 import com.futureworkshops.mobileworkflow.model.AppServiceResponse
 import com.futureworkshops.mobileworkflow.model.result.AnswerResult
+import com.futureworkshops.mobileworkflow.plugin.web.data.WebViewAction
 import com.futureworkshops.mobileworkflow.plugin.web.domain.WebViewConfiguration
 import com.futureworkshops.mobileworkflow.services.ServiceBox
 import com.futureworkshops.mobileworkflow.steps.DataTitle
@@ -22,7 +23,8 @@ internal data class UIWebPluginStep(
     private val hideToolbar: Boolean,
     private val nextButtonText: String = "Next",
     private val showShareOption: Boolean,
-    private val remoteConfiguration: Boolean
+    private val remoteConfiguration: Boolean,
+    private val actions: List<WebViewAction>?
 ) : Step, DataTitle {
 
     override fun copyWithNewTitle(title: String): Step {
@@ -34,7 +36,8 @@ internal data class UIWebPluginStep(
             hideToolbar = hideToolbar,
             nextButtonText = nextButtonText,
             showShareOption = showShareOption,
-            remoteConfiguration = remoteConfiguration
+            remoteConfiguration = remoteConfiguration,
+            actions = actions
         )
     }
 
@@ -55,6 +58,7 @@ internal data class UIWebPluginStep(
                 hideNavigation,
                 hideToolbar,
                 showShareOption,
+                actions,
                 remoteConfiguration,
                 services,
                 appServiceResponse

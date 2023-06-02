@@ -4,9 +4,12 @@
 
 package com.futureworkshops.mobileworkflow.plugin.web.domain
 
+import com.futureworkshops.mobileworkflow.data.network.task.URLIAsyncTask
+import com.futureworkshops.mobileworkflow.extensions.URLNotFoundException
 import com.futureworkshops.mobileworkflow.extensions.get
 import com.futureworkshops.mobileworkflow.model.AppServiceResponse
 import com.futureworkshops.mobileworkflow.plugin.web.data.RestConfiguration
+import com.futureworkshops.mobileworkflow.plugin.web.data.WebViewAction
 import com.futureworkshops.mobileworkflow.services.ServiceBox
 
 class WebViewConfiguration(
@@ -14,9 +17,10 @@ class WebViewConfiguration(
     hideNavigation: Boolean,
     hideToolbar: Boolean,
     showShareOption: Boolean,
+    actions: List<WebViewAction>?,
     private val remoteConfiguration: Boolean,
     private val services: ServiceBox,
-    private val appServiceResponse: AppServiceResponse
+    appServiceResponse: AppServiceResponse
 ) {
     private val baseURL: String = services.urlTaskBuilder.urlHelper.resolveUrl(
         appServiceResponse.server,
@@ -31,6 +35,8 @@ class WebViewConfiguration(
     var hideToolbar: Boolean = hideToolbar
         private set
     var showShareOption: Boolean = showShareOption
+        private set
+    var actions: List<WebViewAction> = actions ?: emptyList()
         private set
 
     init {
@@ -48,6 +54,27 @@ class WebViewConfiguration(
         hideToolbar = response.hideToolbar ?: false
         showShareOption = response.showShareOption ?: false
         url = response.url
+        actions = response.actions ?: emptyList()
         return true
+    }
+
+    suspend fun performAction(action: WebViewAction): Boolean {
+        val previousURL = url
+        val resolvedUrl = services.urlTaskBuilder.resolve(action.url)
+            ?: throw URLNotFoundException(action.url)
+        services.serviceContainer.performNoResponse(
+            URLIAsyncTask<Nothing, Nothing>(
+                url = resolvedUrl,
+                method = action.method,
+                body = null,
+                headers = emptyMap(),
+                responseType = null,
+                handleAuthentication = true
+            ))
+        return if (loadConfiguration()) {
+            url != previousURL
+        } else {
+            false
+        }
     }
 }

@@ -13,6 +13,8 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.activity.addCallback
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.lifecycle.lifecycleScope
@@ -22,6 +24,7 @@ import com.futureworkshops.mobileworkflow.backend.views.step.FragmentStepConfigu
 import com.futureworkshops.mobileworkflow.domain.service.log.Logger
 import com.futureworkshops.mobileworkflow.extensions.buildChooserShareText
 import com.futureworkshops.mobileworkflow.extensions.colorOnPrimarySurface
+import com.futureworkshops.mobileworkflow.extensions.getDrawableIdentifier
 import com.futureworkshops.mobileworkflow.model.result.AnswerResult
 import com.futureworkshops.mobileworkflow.model.result.EmptyAnswerResult
 import com.futureworkshops.mobileworkflow.plugin.web.R
@@ -31,6 +34,7 @@ import com.google.android.material.appbar.MaterialToolbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.lang.Exception
 import kotlin.coroutines.CoroutineContext
 
 internal class WebPluginView(
@@ -168,6 +172,7 @@ internal class WebPluginView(
 
     private fun reloadUIElements() = CoroutineScope(Dispatchers.Main).launch {
         header.visibility = if (config.hideNavigation) View.GONE else View.VISIBLE
+        activity?.let { ActivityCompat.invalidateOptionsMenu(it) }
         setUpFooter()
     }
 
@@ -200,12 +205,33 @@ internal class WebPluginView(
                 0,
                 fragmentStepConfiguration.nextButtonText
             )
-            menuItem?.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+            menuItem?.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+        }
+
+        config.actions.forEachIndexed { index, action ->
+            val menuItem = menu.add(
+                R.id.action_menu_item,
+                index,
+                index,
+                ""
+            )
+            action.materialIconName
+                .let(requireContext()::getDrawableIdentifier)
+                .let { AppCompatResources.getDrawable(requireContext(), it) }
+                ?.apply {
+                    DrawableCompat.setTintList(this, requireContext().colorOnPrimarySurface.toColorStateList())
+                    menuItem?.icon = this
+                }
+            menuItem?.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
         }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when {
+            item.groupId == R.id.action_menu_item -> {
+                performActionAt(item.itemId)
+                true
+            }
             item.itemId == android.R.id.home -> {
                 //For the toolbar home, we are always going one step up.
                 super.back()
@@ -221,6 +247,29 @@ internal class WebPluginView(
                 footer.onContinue()
                 true
             }
+        }
+    }
+
+    private fun performActionAt(actionIndex: Int) = CoroutineScope(Dispatchers.IO).launch {
+        val action = config.actions.getOrNull(actionIndex) ?: return@launch
+        showLoading()
+        try {
+            val shouldReloadPage = config.performAction(action)
+            reloadUIElements()
+            if (shouldReloadPage) {
+                val url = config.url
+                if (url.isNullOrEmpty()) {
+                    hideLoading()
+                    showUnableToLoad()
+                } else {
+                    loadUrl(url)
+                }
+            } else {
+                hideLoading()
+            }
+        } catch (_: Exception) {
+            hideLoading()
+            showUnableToLoad()
         }
     }
 

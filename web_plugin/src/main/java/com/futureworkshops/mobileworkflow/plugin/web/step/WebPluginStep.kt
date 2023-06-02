@@ -8,6 +8,7 @@ import android.os.Parcelable
 import com.futureworkshops.mobileworkflow.model.configuration.NavigationItem
 import com.futureworkshops.mobileworkflow.model.configuration.StepLink
 import com.futureworkshops.mobileworkflow.model.step.PluginStep
+import com.futureworkshops.mobileworkflow.plugin.web.data.WebViewAction
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
@@ -22,5 +23,6 @@ data class WebPluginStep(
     @SerializedName("url") val url: String,
     @SerializedName("hideNavigation") val hideNavigation: Boolean?,
     @SerializedName("hideTopNavigationBar") val hideToolbar: Boolean?,
-    @SerializedName("sharingEnabled") val sharingEnabled: Boolean?
+    @SerializedName("sharingEnabled") val sharingEnabled: Boolean?,
+    @SerializedName("actions") val actions: List<WebViewAction>?
 ) : PluginStep(), Parcelable

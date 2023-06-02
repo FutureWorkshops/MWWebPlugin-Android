@@ -23,6 +23,7 @@ internal class WebPlugin : DeserializeStep<WebPluginStep>(
             hideNavigation = step.hideNavigation ?: false,
             hideToolbar = step.hideToolbar ?: false,
             showShareOption = step.sharingEnabled ?: false,
-            remoteConfiguration = false
+            remoteConfiguration = false,
+            actions = step.actions
         )
 }

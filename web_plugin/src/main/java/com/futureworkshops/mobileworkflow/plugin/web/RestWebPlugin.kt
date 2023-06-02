@@ -22,6 +22,7 @@ class RestWebPlugin : DeserializeStep<RestWebViewStep>(
             hideNavigation = true,
             hideToolbar = true,
             showShareOption = false,
-            remoteConfiguration = true
+            remoteConfiguration = true,
+            actions = null
         )
 }
