@@ -23,28 +23,26 @@ import com.futureworkshops.mobileworkflow.extensions.colorOnPrimarySurface
 import com.futureworkshops.mobileworkflow.model.result.AnswerResult
 import com.futureworkshops.mobileworkflow.model.result.EmptyAnswerResult
 import com.futureworkshops.mobileworkflow.plugin.web.R
+import com.futureworkshops.mobileworkflow.plugin.web.domain.WebViewConfiguration
 import com.futureworkshops.mobileworkflow.plugin.web.view.webview.LoggerWebChromeClient
 import com.google.android.material.appbar.MaterialToolbar
 
 internal class WebPluginView(
     private val fragmentStepConfiguration: FragmentStepConfiguration,
-    private val url: String,
-    private val hideNavigation: Boolean,
-    private val hideToolbar: Boolean,
+    private val config: WebViewConfiguration,
     private val logger: Logger = Logger.sharedInstance,
-    private val showShareOption: Boolean
 ) : FragmentStep(fragmentStepConfiguration) {
 
     private lateinit var webView: WebView
     private lateinit var webPart: WebPart
 
     override var showHeader: Boolean
-        get() = !hideToolbar && super.showHeader
+        get() = !config.hideToolbar && super.showHeader
         set(value) { super.showHeader = value }
     private val shouldShowNextBottomBar: Boolean
-        get() = if (hideNavigation) { false } else { showContinue }
+        get() = if (config.hideNavigation) { false } else { showContinue }
     private val shouldShowShareBottomBar: Boolean
-        get() = if (hideNavigation) { false } else { showShareOption }
+        get() = if (config.hideNavigation) { false } else { config.showShareOption }
 
     override fun getStepOutput(): AnswerResult = EmptyAnswerResult()
     override fun isValidInput(): Boolean = true
@@ -149,7 +147,7 @@ internal class WebPluginView(
 
     private fun viewUrl() {
         showLoading()
-        webView.loadUrl(url)
+        webView.loadUrl(config.url)
     }
 
     override fun back() {
@@ -159,9 +157,9 @@ internal class WebPluginView(
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
 
-        configureShareMenu(menu, showShareOption && hideNavigation)
+        configureShareMenu(menu, config.showShareOption && config.hideNavigation)
 
-        if (hideNavigation && showContinue) {
+        if (config.hideNavigation && showContinue) {
             val menuItem = menu.add(
                 R.id.main_menu_group,
                 R.id.next_menu_item,
@@ -182,7 +180,7 @@ internal class WebPluginView(
             item.itemId == R.id.share_menu_item -> {
                 shareUrl()
             }
-            !hideNavigation || item.itemId != R.id.next_menu_item -> {
+            !config.hideNavigation || item.itemId != R.id.next_menu_item -> {
                 super.onOptionsItemSelected(item)
             }
             else -> {
@@ -195,7 +193,7 @@ internal class WebPluginView(
     private fun shareUrl(): Boolean {
         if (!isShareShown) {
             context?.startActivity(
-                buildChooserShareText(url)
+                buildChooserShareText(config.url)
             )
             isShareShown = true
         }

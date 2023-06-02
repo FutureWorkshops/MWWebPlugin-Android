@@ -9,6 +9,7 @@ import com.futureworkshops.mobileworkflow.backend.views.step.FragmentStep
 import com.futureworkshops.mobileworkflow.backend.views.step.FragmentStepConfiguration
 import com.futureworkshops.mobileworkflow.model.AppServiceResponse
 import com.futureworkshops.mobileworkflow.model.result.AnswerResult
+import com.futureworkshops.mobileworkflow.plugin.web.domain.WebViewConfiguration
 import com.futureworkshops.mobileworkflow.services.ServiceBox
 import com.futureworkshops.mobileworkflow.steps.DataTitle
 import com.futureworkshops.mobileworkflow.steps.Step
@@ -40,12 +41,6 @@ internal data class UIWebPluginStep(
         services: ServiceBox,
         appServiceResponse: AppServiceResponse
     ): FragmentStep {
-        val resolvedURL = services.urlTaskBuilder.urlHelper.resolveUrl(
-            appServiceResponse.server,
-            url,
-            appServiceResponse.session
-        ) ?: url
-
         return WebPluginView(
             FragmentStepConfiguration(
                 title = if(hideToolbar) null else services.localizationService.getTranslation(title),
@@ -53,10 +48,14 @@ internal data class UIWebPluginStep(
                 nextButtonText = services.localizationService.getTranslation(nextButtonText),
                 services = services
             ),
-            url = resolvedURL,
-            hideNavigation = hideNavigation,
-            hideToolbar = hideToolbar,
-            showShareOption = showShareOption
+            config = WebViewConfiguration(
+                url,
+                hideNavigation,
+                hideToolbar,
+                showShareOption,
+                services,
+                appServiceResponse
+            )
         )
     }
 }
