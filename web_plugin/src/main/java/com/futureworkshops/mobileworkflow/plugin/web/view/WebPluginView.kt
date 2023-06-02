@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.lifecycle.lifecycleScope
 import com.futureworkshops.mobileworkflow.backend.helpers.extensions.toColorStateList
 import com.futureworkshops.mobileworkflow.backend.views.step.FragmentStep
 import com.futureworkshops.mobileworkflow.backend.views.step.FragmentStepConfiguration
@@ -27,6 +28,10 @@ import com.futureworkshops.mobileworkflow.plugin.web.R
 import com.futureworkshops.mobileworkflow.plugin.web.domain.WebViewConfiguration
 import com.futureworkshops.mobileworkflow.plugin.web.view.webview.LoggerWebChromeClient
 import com.google.android.material.appbar.MaterialToolbar
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
 internal class WebPluginView(
     private val fragmentStepConfiguration: FragmentStepConfiguration,
@@ -147,19 +152,35 @@ internal class WebPluginView(
 
 
     private fun viewUrl() {
-        val url = config.url ?: return showUnableToLoad()
-        showLoading()
+        CoroutineScope(Dispatchers.IO).launch {
+            showLoading()
+
+            if (config.loadConfiguration()) {
+                //TODO: Reorganise UI elements
+            }
+
+            val url = config.url
+            if (url.isNullOrEmpty()) {
+                hideLoading()
+                showUnableToLoad()
+            } else {
+                loadUrl(url)
+            }
+        }
+    }
+
+    private fun loadUrl(url: String) = activity?.runOnUiThread {
         webView.loadUrl(url)
     }
 
-    private fun showUnableToLoad() {
-        val safeContext = context ?: return
-
-        Toast.makeText(
-            safeContext,
-            getString(R.string.unable_to_load),
-            Toast.LENGTH_SHORT
-        ).show()
+    private fun showUnableToLoad() = activity?.apply {
+        runOnUiThread {
+            Toast.makeText(
+                this,
+                getString(R.string.unable_to_load),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     override fun back() {
@@ -226,15 +247,17 @@ internal class WebPluginView(
 
     }
 
-    private fun showLoading() {
-        if (webPart.progressBar.visibility != View.GONE) { return }
-        webPart.progressBar.visibility = View.VISIBLE
-        webView.visibility = View.INVISIBLE
+    private fun showLoading() = activity?.runOnUiThread {
+        if (webPart.progressBar.visibility == View.GONE) {
+            webPart.progressBar.visibility = View.VISIBLE
+            webView.visibility = View.INVISIBLE
+        }
     }
 
-    private fun hideLoading() {
-        if (webPart.progressBar.visibility != View.VISIBLE) { return }
-        webView.visibility = View.VISIBLE
-        webPart.progressBar.visibility = View.GONE
+    private fun hideLoading() = activity?.runOnUiThread {
+        if (webPart.progressBar.visibility == View.VISIBLE) {
+            webView.visibility = View.VISIBLE
+            webPart.progressBar.visibility = View.GONE
+        }
     }
 }

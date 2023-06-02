@@ -14,10 +14,16 @@ class WebViewConfiguration(
     hideNavigation: Boolean,
     hideToolbar: Boolean,
     showShareOption: Boolean,
-    val remoteConfiguration: Boolean,
+    private val remoteConfiguration: Boolean,
     private val services: ServiceBox,
     private val appServiceResponse: AppServiceResponse
 ) {
+    private val baseURL: String = services.urlTaskBuilder.urlHelper.resolveUrl(
+        appServiceResponse.server,
+        url,
+        appServiceResponse.session
+    ) ?: url
+
     var url: String?
         private set
     var hideNavigation: Boolean = hideNavigation
@@ -31,21 +37,17 @@ class WebViewConfiguration(
         if (remoteConfiguration) {
             this.url = null
         } else {
-            this.url = services.urlTaskBuilder.urlHelper.resolveUrl(
-                appServiceResponse.server,
-                url,
-                appServiceResponse.session
-            ) ?: url
+            this.url = baseURL
         }
     }
 
     suspend fun loadConfiguration(): Boolean {
         if (!remoteConfiguration) { return false }
-        val baseURL = url ?: return false
         val response: RestConfiguration = services.get(baseURL)
         hideNavigation = response.hideNavigation
         hideToolbar = response.hideToolbar
         showShareOption = response.showShareOption
+        url = response.url
         return true
     }
 }
