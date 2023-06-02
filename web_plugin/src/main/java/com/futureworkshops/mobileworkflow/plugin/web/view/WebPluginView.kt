@@ -11,6 +11,7 @@ import android.view.MenuItem
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
@@ -146,8 +147,19 @@ internal class WebPluginView(
 
 
     private fun viewUrl() {
+        val url = config.url ?: return showUnableToLoad()
         showLoading()
-        webView.loadUrl(config.url)
+        webView.loadUrl(url)
+    }
+
+    private fun showUnableToLoad() {
+        val safeContext = context ?: return
+
+        Toast.makeText(
+            safeContext,
+            getString(R.string.unable_to_load),
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     override fun back() {
@@ -191,9 +203,11 @@ internal class WebPluginView(
     }
 
     private fun shareUrl(): Boolean {
+        val url = config.url ?: return false
+
         if (!isShareShown) {
             context?.startActivity(
-                buildChooserShareText(config.url)
+                buildChooserShareText(url)
             )
             isShareShown = true
         }

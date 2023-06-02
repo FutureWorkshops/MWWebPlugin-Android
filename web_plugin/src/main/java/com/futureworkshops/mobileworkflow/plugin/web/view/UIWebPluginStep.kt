@@ -21,7 +21,8 @@ internal data class UIWebPluginStep(
     private val hideNavigation: Boolean,
     private val hideToolbar: Boolean,
     private val nextButtonText: String = "Next",
-    private val showShareOption: Boolean
+    private val showShareOption: Boolean,
+    private val remoteConfiguration: Boolean
 ) : Step, DataTitle {
 
     override fun copyWithNewTitle(title: String): Step {
@@ -32,7 +33,8 @@ internal data class UIWebPluginStep(
             hideNavigation = hideNavigation,
             hideToolbar = hideToolbar,
             nextButtonText = nextButtonText,
-            showShareOption = showShareOption
+            showShareOption = showShareOption,
+            remoteConfiguration = remoteConfiguration
         )
     }
 
@@ -53,6 +55,7 @@ internal data class UIWebPluginStep(
                 hideNavigation,
                 hideToolbar,
                 showShareOption,
+                remoteConfiguration,
                 services,
                 appServiceResponse
             )
