@@ -45,7 +45,7 @@ internal data class UIWebPluginStep(
     ): FragmentStep {
         return WebPluginView(
             FragmentStepConfiguration(
-                title = if(hideToolbar) null else services.localizationService.getTranslation(title),
+                title = services.localizationService.getTranslation(title),
                 text = null,
                 nextButtonText = services.localizationService.getTranslation(nextButtonText),
                 services = services

@@ -44,9 +44,9 @@ class WebViewConfiguration(
     suspend fun loadConfiguration(): Boolean {
         if (!remoteConfiguration) { return false }
         val response: RestConfiguration = services.get(baseURL)
-        hideNavigation = response.hideNavigation
-        hideToolbar = response.hideToolbar
-        showShareOption = response.showShareOption
+        hideNavigation = response.hideNavigation ?: false
+        hideToolbar = response.hideToolbar ?: false
+        showShareOption = response.showShareOption ?: false
         url = response.url
         return true
     }

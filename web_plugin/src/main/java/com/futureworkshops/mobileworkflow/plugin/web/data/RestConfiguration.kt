@@ -11,8 +11,8 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class RestConfiguration(
     @SerializedName("url") val url: String,
-    @SerializedName("hideTopNavigationBar") val hideNavigation: Boolean,
-    @SerializedName("hideNavigation") val hideToolbar: Boolean,
-    @SerializedName("sharingEnabled") val showShareOption: Boolean,
+    @SerializedName("hideTopNavigationBar") val hideNavigation: Boolean?,
+    @SerializedName("hideNavigation") val hideToolbar: Boolean?,
+    @SerializedName("sharingEnabled") val showShareOption: Boolean?,
     @SerializedName("actions") val actions: List<WebViewAction>?
 ): Parcelable

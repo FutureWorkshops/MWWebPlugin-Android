@@ -42,9 +42,6 @@ internal class WebPluginView(
     private lateinit var webView: WebView
     private lateinit var webPart: WebPart
 
-    override var showHeader: Boolean
-        get() = !config.hideToolbar && super.showHeader
-        set(value) { super.showHeader = value }
     private val shouldShowNextBottomBar: Boolean
         get() = if (config.hideNavigation) { false } else { showContinue }
     private val shouldShowShareBottomBar: Boolean
@@ -90,7 +87,7 @@ internal class WebPluginView(
 
     override fun onViewCreated() {
         super.onViewCreated()
-        header.visibility = if (showHeader) View.VISIBLE else View.GONE
+        header.visibility = if (config.hideNavigation) View.GONE else View.VISIBLE
         toolbar.title = fragmentStepConfiguration.title
         (toolbar as? MaterialToolbar)?.isTitleCentered = true
 
@@ -156,7 +153,7 @@ internal class WebPluginView(
             showLoading()
 
             if (config.loadConfiguration()) {
-                //TODO: Reorganise UI elements
+                reloadUIElements()
             }
 
             val url = config.url
@@ -169,18 +166,22 @@ internal class WebPluginView(
         }
     }
 
-    private fun loadUrl(url: String) = activity?.runOnUiThread {
+    private fun reloadUIElements() = CoroutineScope(Dispatchers.Main).launch {
+        header.visibility = if (config.hideNavigation) View.GONE else View.VISIBLE
+        setUpFooter()
+    }
+
+    private fun loadUrl(url: String) = CoroutineScope(Dispatchers.Main).launch {
         webView.loadUrl(url)
     }
 
-    private fun showUnableToLoad() = activity?.apply {
-        runOnUiThread {
-            Toast.makeText(
-                this,
-                getString(R.string.unable_to_load),
-                Toast.LENGTH_SHORT
-            ).show()
-        }
+    private fun showUnableToLoad() = CoroutineScope(Dispatchers.Main).launch {
+        val safeContext = context ?: return@launch
+        Toast.makeText(
+            safeContext,
+            getString(R.string.unable_to_load),
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     override fun back() {
@@ -247,14 +248,14 @@ internal class WebPluginView(
 
     }
 
-    private fun showLoading() = activity?.runOnUiThread {
+    private fun showLoading() = CoroutineScope(Dispatchers.Main).launch {
         if (webPart.progressBar.visibility == View.GONE) {
             webPart.progressBar.visibility = View.VISIBLE
             webView.visibility = View.INVISIBLE
         }
     }
 
-    private fun hideLoading() = activity?.runOnUiThread {
+    private fun hideLoading() = CoroutineScope(Dispatchers.Main).launch {
         if (webPart.progressBar.visibility == View.VISIBLE) {
             webView.visibility = View.VISIBLE
             webPart.progressBar.visibility = View.GONE
