@@ -1,4 +1,5 @@
 <resources>
     <string name="menu_item_share">Share</string>
     <string name="action_share">Share</string>
+    <string name="unable_to_load">Unable to load page</string>
 </resources>

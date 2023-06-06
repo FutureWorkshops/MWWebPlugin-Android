@@ -9,6 +9,8 @@ import com.futureworkshops.mobileworkflow.backend.views.step.FragmentStep
 import com.futureworkshops.mobileworkflow.backend.views.step.FragmentStepConfiguration
 import com.futureworkshops.mobileworkflow.model.AppServiceResponse
 import com.futureworkshops.mobileworkflow.model.result.AnswerResult
+import com.futureworkshops.mobileworkflow.plugin.web.data.WebViewAction
+import com.futureworkshops.mobileworkflow.plugin.web.domain.WebViewConfiguration
 import com.futureworkshops.mobileworkflow.services.ServiceBox
 import com.futureworkshops.mobileworkflow.steps.DataTitle
 import com.futureworkshops.mobileworkflow.steps.Step
@@ -20,7 +22,9 @@ internal data class UIWebPluginStep(
     private val hideNavigation: Boolean,
     private val hideToolbar: Boolean,
     private val nextButtonText: String = "Next",
-    private val showShareOption: Boolean
+    private val showShareOption: Boolean,
+    private val remoteConfiguration: Boolean,
+    private val actions: List<WebViewAction>?
 ) : Step, DataTitle {
 
     override fun copyWithNewTitle(title: String): Step {
@@ -31,7 +35,9 @@ internal data class UIWebPluginStep(
             hideNavigation = hideNavigation,
             hideToolbar = hideToolbar,
             nextButtonText = nextButtonText,
-            showShareOption = showShareOption
+            showShareOption = showShareOption,
+            remoteConfiguration = remoteConfiguration,
+            actions = actions
         )
     }
 
@@ -40,23 +46,23 @@ internal data class UIWebPluginStep(
         services: ServiceBox,
         appServiceResponse: AppServiceResponse
     ): FragmentStep {
-        val resolvedURL = services.urlTaskBuilder.urlHelper.resolveUrl(
-            appServiceResponse.server,
-            url,
-            appServiceResponse.session
-        ) ?: url
-
         return WebPluginView(
             FragmentStepConfiguration(
-                title = if(hideToolbar) null else services.localizationService.getTranslation(title),
+                title = services.localizationService.getTranslation(title),
                 text = null,
                 nextButtonText = services.localizationService.getTranslation(nextButtonText),
                 services = services
             ),
-            url = resolvedURL,
-            hideNavigation = hideNavigation,
-            hideToolbar = hideToolbar,
-            showShareOption = showShareOption
+            config = WebViewConfiguration(
+                url,
+                hideNavigation,
+                hideToolbar,
+                showShareOption,
+                actions,
+                remoteConfiguration,
+                services,
+                appServiceResponse
+            )
         )
     }
 }

@@ -4,4 +4,5 @@
 <resources>
     <item name="next_menu_item" type="id" />
     <item name="share_menu_item" type="id" />
+    <item name="action_menu_item" type="id" />
 </resources>
