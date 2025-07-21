@@ -134,7 +134,7 @@ internal class WebPluginView(
         if (showButton) {
             val bottomBarMenu = webPart.view.bottomAppBar.menu
             val menuItem = bottomBarMenu.add(
-                R.id.main_menu_group,
+                com.futureworkshops.mobileworkflow.R.id.main_menu_group,
                 R.id.next_menu_item,
                 0,
                 fragmentStepConfiguration.nextButtonText
@@ -201,7 +201,7 @@ internal class WebPluginView(
 
         if (config.hideNavigation && showContinue) {
             val menuItem = menu.add(
-                R.id.main_menu_group,
+                com.futureworkshops.mobileworkflow.R.id.main_menu_group,
                 R.id.next_menu_item,
                 0,
                 fragmentStepConfiguration.nextButtonText
