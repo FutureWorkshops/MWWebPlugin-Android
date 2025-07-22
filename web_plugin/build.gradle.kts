@@ -7,23 +7,27 @@ plugins {
 }
 
 android {
-    compileSdk = 34
-    buildToolsVersion = "34.0.0"
+    compileSdk = 35
+    buildToolsVersion = "35.0.0"
+    namespace = "com.futureworkshops.mobileworkflow.plugin.web"
 
     defaultConfig {
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "PLUGIN_VERSION", "\"${project.property("project.buildversion")?.toString()}\"")
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions.jvmTarget = JavaVersion.VERSION_11.toString()
+    kotlinOptions {
+        freeCompilerArgs += "-Xstring-concat=inline"
+        jvmTarget = JavaVersion.VERSION_17.toString()
+    }
 
     buildTypes {
         debug {
@@ -46,12 +50,13 @@ android {
     }
 
     buildFeatures {
+        buildConfig = true
         viewBinding = true
     }
 
     testOptions.unitTests.isReturnDefaultValues = true
     testOptions.unitTests.isIncludeAndroidResources = true
-    packagingOptions {
+    packaging {
         dex {
             useLegacyPackaging = false
         }
