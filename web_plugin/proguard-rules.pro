@@ -20,6 +20,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 -repackageclasses com.futureworkshops.mobileworkflow.plugin.web
+-dontwarn java.lang.invoke.StringConcatFactory
 
 -keep class * extends com.futureworkshops.mobileworkflow.model.step.Step { public *;  protected *; }
 -keep class * extends com.futureworkshops.mobileworkflow.model.step.PluginStep { public *;  protected *; }

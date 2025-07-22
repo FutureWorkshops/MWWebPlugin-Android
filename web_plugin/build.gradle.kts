@@ -24,7 +24,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions.jvmTarget = JavaVersion.VERSION_17.toString()
+    kotlinOptions {
+        freeCompilerArgs += "-Xstring-concat=inline"
+        jvmTarget = JavaVersion.VERSION_17.toString()
+    }
 
     buildTypes {
         debug {
