@@ -7,13 +7,13 @@ plugins {
 }
 
 android {
-    compileSdk = 35
-    buildToolsVersion = "35.0.0"
+    compileSdk = 36
+    buildToolsVersion = "36.0.0"
     namespace = "com.futureworkshops.mobileworkflow.plugin.web"
 
     defaultConfig {
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 36
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "PLUGIN_VERSION", "\"${project.property("project.buildversion")?.toString()}\"")
